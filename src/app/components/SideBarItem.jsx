@@ -1,5 +1,7 @@
+import { useState } from "react";
 import {
   Grid,
+  List,
   ListItem,
   ListItemButton,
   ListItemIcon,
@@ -7,20 +9,49 @@ import {
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
 
-export const SideBarItem = ({ name, icon, description }) => {
+import Collapse from "@mui/material/Collapse";
+import {ExpandLess, ExpandMore} from "@mui/icons-material";
+
+export const SideBarItem = ({ icon, description, subitems }) => {
+  const [open, setOpen] = useState(true);
+
+  const handleClick = () => {
+    setOpen(!open);
+    console.log(icon)
+  };
   return (
-    <NavLink
-      to={name}
-      style={{ textDecoration: "none", color: "inherit" }}
-    >
-      <ListItem disablePadding>
-        <ListItemButton>
-          <ListItemIcon>{icon}</ListItemIcon>
-          <Grid container>
+    <>
+      {subitems && subitems.length > 0 ? (
+        <>
+          <ListItemButton onClick={handleClick}>
+            <ListItemIcon>{icon}</ListItemIcon>
             <ListItemText primary={description} />
-          </Grid>
-        </ListItemButton>
-      </ListItem>
-    </NavLink>
+            {open ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          {subitems.map((subitem) => (
+            <Collapse in={open} timeout="auto" unmountOnExit key={subitem.path}>
+              <List component="div" disablePadding>
+                <NavLink
+                  to={subitem.path}
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <ListItemButton sx={{ pl: 4 }}>
+                    <ListItemIcon>{subitem.icon}</ListItemIcon>
+                    <ListItemText primary={subitem.description} />
+                  </ListItemButton>
+                </NavLink>
+              </List>
+            </Collapse>
+          ))}
+        </>
+      ) : (
+        <NavLink to={description} style={{ textDecoration: "none", color: "inherit" }}>
+          <ListItemButton>
+            <ListItemIcon>{icon}</ListItemIcon>
+            <ListItemText primary={description} />
+          </ListItemButton>
+        </NavLink>
+      )}
+    </>
   );
 };
