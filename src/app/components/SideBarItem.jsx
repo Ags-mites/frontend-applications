@@ -17,7 +17,6 @@ export const SideBarItem = ({ icon, description, subitems }) => {
 
   const handleClick = () => {
     setOpen(!open);
-    console.log(icon)
   };
   return (
     <>

@@ -1,7 +1,6 @@
 import { IconButton } from '@mui/material';
 import { AddOutlined } from '@mui/icons-material';
 import { AppLayout } from '../layout/AppLayout';
-import { AccountPage } from './AccountPage';
 
 export const AppPage = () => {
   return (
