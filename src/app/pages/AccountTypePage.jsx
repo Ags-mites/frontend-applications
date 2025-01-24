@@ -1,5 +1,5 @@
 import { AppLayout } from "../layout/AppLayout";
-import { OutlinedCard, FormCard, EnhancedTable } from "../ui";
+import { OutlinedCard, FormCard, Switch1 } from "../ui";
 import {
   Autocomplete,
   Card,
@@ -40,7 +40,7 @@ export const createAccountConfig = {
   ],
 };
 
-export const CreateAccountPage = () => {
+export const AccountTypePage = () => {
   const handleSubmit = () => {
     if (onSubmit) {
       onSubmit(formValues);
@@ -91,7 +91,6 @@ export const CreateAccountPage = () => {
       <Grid container>
         <Grid item xs={12} sx={{ mt: 2 }}>
           <OutlinedCard title="Eliminar" subtitle="Eliminar cuentas">
-            <EnhancedTable />
           </OutlinedCard>
         </Grid>
       </Grid>

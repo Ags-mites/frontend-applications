@@ -1,3 +1,3 @@
-
-export * from './NoteView';
-export * from './NothingSelectedView';
+export * from "./FormView";
+export * from "./EdittView";
+export * from "./TableInfoView";

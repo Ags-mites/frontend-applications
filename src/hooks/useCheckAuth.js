@@ -4,6 +4,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 
 import { FirebaseAuth } from '../firebase/config';
 import { login, logout } from '../store/auth';
+import { startLoadingData } from '../store/account/thunks';
 
 
 
@@ -16,9 +17,15 @@ export const useCheckAuth = () => {
         
         onAuthStateChanged( FirebaseAuth, async( user ) => {
             if ( !user ) return dispatch( logout() );
-
             const { uid, email, displayName, photoURL } = user;
             dispatch( login({ uid, email, displayName, photoURL }) );
+            //*Accounts
+            const resources = ["account", "accountType", "voucher", "voucherType"];
+            resources.forEach((resource) => {
+              dispatch(startLoadingData(resource));
+            });
+
+            
         })
     }, []);
 

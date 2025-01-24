@@ -1,5 +1,5 @@
 import { AppLayout } from "../layout/AppLayout";
-import { OutlinedCard, FormCard, EnhancedTable } from "../ui";
+import { OutlinedCard, FormCard } from "../ui";
 import {
   Autocomplete,
   Card,
@@ -91,7 +91,6 @@ export const Voucher = () => {
       <Grid container>
         <Grid item xs={12} sx={{ mt: 2 }}>
           <OutlinedCard title="Eliminar" subtitle="Eliminar cuentas">
-            <EnhancedTable />
           </OutlinedCard>
         </Grid>
       </Grid>
