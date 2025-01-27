@@ -2,14 +2,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppLayout } from "../layout/AppLayout";
 import { FormView, TableInfoView } from "../views";
 import { useState } from "react";
-import { NewAccount } from "../../store/account/thunks";
+import { format } from "date-fns"; 
+import { EditAccount, NewAccount } from "../../store/account/thunks";
 
 const AccountFormConfig = {
   initialValues: {
     code: "",
     name: "",
     description: "",
-    accoutType: "",
     status: "",
   },
   fields: [
@@ -26,22 +26,13 @@ const AccountFormConfig = {
       ],
     },
     {
-      name: "accoutType",
+      name: "accountType",
       label: "Tipo de cuenta",
       type: "select",
       options: [],
     },
   ],
 };
-
-/* const formValidations = {
-  email: [(value) => value.includes("@"), "El correo debe de tener una @"],
-  password: [
-    (value) => value.length >= 6,
-    "El password debe de tener más de 6 letras.",
-  ],
-  displayName: [(value) => value.length >= 1, "El nombre es obligatorio."],
-}; */
 
 const headers = {
   id: "ID",
@@ -57,26 +48,26 @@ export const AccountPage = () => {
   const dispatch = useDispatch();
   const { account, accountType } = useSelector((state) => state.app);
 
+  const [isFormView, setIsFormView] = useState(false);
+  const [editingAccount, setEditingAccount] = useState(null);
+
   const accountTypeOptions = accountType.map((type) => ({
     label: type.name,
     id: type.id,
   }));
 
-  const updatedFormConfig = {
+  const [formConfig, setFormConfig] = useState({
     ...AccountFormConfig,
     fields: AccountFormConfig.fields.map((field) =>
-      field.name === "accoutType"
+      field.name === "accountType"
         ? { ...field, options: accountTypeOptions }
         : field
     ),
-  };
-
-  const [isFormView, setIsFormView] = useState(false);
-  const [editingAccount, setEditingAccount] = useState(null);
+  });
 
   const handleSubmit = (formValues) => {
     if (editingAccount) {
-      console.log("Editar cuenta:", formValues);
+      dispatch(EditAccount(formValues));
     } else {
       dispatch(NewAccount(formValues));
     }
@@ -85,30 +76,56 @@ export const AccountPage = () => {
   };
 
   const onClickCreateNewAccount = () => {
+    
+    const filteredFields = formConfig.fields.filter(
+      (field) => field.name !== "id" 
+    );
+    setFormConfig({
+      fields: filteredFields,
+      initialValues: {
+        code: "",
+        name: "",
+        description: "",
+        status: "",
+        accountType: "",
+      },
+    });
     setIsFormView(true);
     setEditingAccount(null);
   };
 
   const onEditAccount = (accountToEdit) => {
+    const mappedStatus = accountToEdit.status === "Activo" ? 1 : 2;
+
+    setFormConfig({
+      ...formConfig,
+      initialValues: {
+        id: accountToEdit.id || "",
+        code: accountToEdit.code || "",
+        name: accountToEdit.name || "",
+        description: accountToEdit.description || "",
+        accountType: accountToEdit.accountTypeId || "",
+        status: mappedStatus,
+      },
+      fields: formConfig.fields.some((field) => field.name === "id")
+        ? formConfig.fields
+        : [...formConfig.fields, { name: "id", label: "ID", type: "text", readOnly: true }],
+    });
+
     setIsFormView(true);
     setEditingAccount(accountToEdit);
   };
 
-  const formConfig = editingAccount
-    ? {
-        ...updatedFormConfig,
-        initialValues: {
-          ...updatedFormConfig.initialValues,
-          ...editingAccount,
-        },
-      }
-    : updatedFormConfig;
+  const formattedAccounts = account.map((item) => ({
+    ...item,
+    createdAt: format(new Date(item.createdAt), "dd/MM/yyyy HH:mm:ss"),
+  }));
 
   return (
     <AppLayout>
       {!isFormView ? (
         <TableInfoView
-          data={account}
+          data={formattedAccounts}
           headers={headers}
           onCreateItem={onClickCreateNewAccount}
           onEditItem={onEditAccount}
@@ -116,6 +133,7 @@ export const AccountPage = () => {
       ) : (
         <FormView
           config={formConfig}
+          isEditing={!!editingAccount}
           onSubmitCallback={handleSubmit}
           onCancel={() => setIsFormView(false)}
         />

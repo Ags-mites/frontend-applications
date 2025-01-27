@@ -1,5 +1,5 @@
-import { getAllResourse, CreateResourse } from "../../use-cases";
-import { setData } from "./accountSlice";
+import { getAllResourse, CreateResourse, UpdateResourse } from "../../use-cases";
+import { setData, addNewAccount, setEditAccount } from "./accountSlice";
 
 export const startLoadingData = (resource) => {
   return async (dispatch, getState) => {
@@ -10,21 +10,34 @@ export const startLoadingData = (resource) => {
   };
 };
 
-export const NewAccount = ({ code, description, name, status, accoutType }) => {
-  return async (dispatch, getState) => {
-
+export const NewAccount = ({ code, description, name, status, accountType }) => {
+  return async (dispatch) => {
     const newAccount = {
       code,
       name,
       status: status === 1 ? "Active" : "Inactive",
       description,
-      accountTypeId:accoutType,
+      accountTypeId: accountType,
     };
 
-    const res = await CreateResourse(newAccount,"account");
+    const res = await CreateResourse(newAccount, "account");
 
-    //! dispatch
-    /* dispatch( addNewEmptyNote( newNote ) );
-      dispatch( setActiveNote( newNote ) ); */
+    dispatch(addNewAccount(res));
   };
+};
+
+export const EditAccount = ({ id, name, status, description, code, accountType }) => {
+  return async (dispatch ) => {
+    const editAccount = {
+      id, 
+      code,
+      name,
+      status: status === 1 ? "Active" : "Inactive",
+      description,
+      accountTypeId: accountType,
+    } 
+    const res = await UpdateResourse(editAccount, "account", id);
+    
+    dispatch(setEditAccount(res));
+  }
 };

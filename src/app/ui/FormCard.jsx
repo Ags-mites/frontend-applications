@@ -13,20 +13,24 @@ import {
 import { useForm } from "../../hooks";
 import { OutlinedCard } from "./OutlinedCard";
 
-export const FormCard = ({ config, onSubmitCallback, onCancel }) => {
+export const FormCard = ({ config, onSubmitCallback, onCancel, isEditing }) => {
   const { initialValues, fields } = config;
   const { formState, onInputChange, onResetForm } = useForm(initialValues);
 
   const onSubmit = (event) => {
     event.preventDefault();
-    if (onSubmitCallback) onSubmitCallback(formState);
+    if (onSubmitCallback) {
+      onSubmitCallback(formState, isEditing);
+    }
   };
 
   return (
     <OutlinedCard>
       <Box sx={{ width: "100%" }}>
         <Grid container sx={{ mb: 4 }}>
-          <Typography variant="h6">Gestionar cuentas</Typography>
+          <Typography variant="h6">
+            {isEditing ? "Editar cuenta" : "Crear nueva cuenta"}
+          </Typography>
         </Grid>
         <form
           onSubmit={onSubmit}
@@ -41,6 +45,9 @@ export const FormCard = ({ config, onSubmitCallback, onCancel }) => {
                     name={field.name}
                     value={formState[field.name] || ""}
                     onChange={onInputChange}
+                    InputProps={{
+                      readOnly: field.readOnly ? true : false,
+                    }}
                     fullWidth
                     size="small"
                   />
@@ -74,7 +81,7 @@ export const FormCard = ({ config, onSubmitCallback, onCancel }) => {
           >
             <Grid item xs={2}>
               <Button type="submit" variant="contained" fullWidth>
-                Guardar
+                {isEditing ? "Actualizar" : "Guardar"}
               </Button>
             </Grid>
             <Grid item xs={2}>

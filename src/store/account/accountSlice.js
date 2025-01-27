@@ -22,8 +22,17 @@ export const accountSlice = createSlice({
     setCreateItem: (state) => {
       state.activeTable = false;
     },
-    setEditItem: (state, action) => {
-      state.activeTable = false;
+    setEditAccount: (state, action) => {
+      state.account = state.account.map( account => {
+        if (account.id ===action.payload.id){
+          return action.payload;
+        }
+        return account;
+      })
+    },
+    addNewAccount: (state, action)=>{
+      state.account.push( action.payload );
+      state.isSaving = false;
     },
     clearActiveItem: (state) => {
       state.activeTable = true;
@@ -35,6 +44,7 @@ export const {
   savingNewItem,
   setData,
   setCreateItem,
-  setEditItem,
+  setEditAccount,
   clearActiveItem,
+  addNewAccount,
 } = accountSlice.actions;

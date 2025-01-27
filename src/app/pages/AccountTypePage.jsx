@@ -1,5 +1,5 @@
 import { AppLayout } from "../layout/AppLayout";
-import { OutlinedCard, FormCard, Switch1 } from "../ui";
+import { OutlinedCard, FormCard } from "../ui";
 import {
   Autocomplete,
   Card,

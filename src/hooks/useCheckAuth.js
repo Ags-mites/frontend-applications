@@ -24,9 +24,8 @@ export const useCheckAuth = () => {
             resources.forEach((resource) => {
               dispatch(startLoadingData(resource));
             });
-
-            
         })
+        
     }, []);
 
     return status;

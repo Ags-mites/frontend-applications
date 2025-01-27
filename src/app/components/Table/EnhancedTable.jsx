@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Table,
@@ -16,14 +16,17 @@ import { EnhancedTableHead } from "./EnhancedTableHead";
 import { EnhancedTableToolbar } from "./EnhancedTableToolbar";
 import { EnhancedTableRow } from "./EnhancedTableRow";
 
-export const EnhancedTable = ({headers, data, onEditItem}) => {
-  
+export const EnhancedTable = ({ headers, data, onEditItem }) => {
   const [rows, setRows] = useState(data);
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("id");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [dense, setDense] = useState(false);
+
+  useEffect(() => {
+    setRows(data);
+  }, [data]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -45,13 +48,13 @@ export const EnhancedTable = ({headers, data, onEditItem}) => {
   };
 
   const handleEdit = (row) => {
-    console.log("Editando", row);
-    onEditItem()
+    /* console.log("Editando", row); */
+    onEditItem(row);
   };
 
   const handleDelete = (row) => {
     console.log("Eliminando", row);
-    setRows(rows.filter(r => r.id !== row.id));
+    setRows(rows.filter((r) => r.id !== row.id));
   };
 
   const visibleRows = rows

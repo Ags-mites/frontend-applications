@@ -1,17 +1,18 @@
 import { FormCard } from "../ui";
 
-export const FormView = ({ config, onSubmitCallback, onCancel }) => {
+export const FormView = ({ config, onSubmitCallback, onCancel, isEditing }) => {
   const handleSubmit = (formValues) => {
     if (onSubmitCallback) {
-      onSubmitCallback(formValues);
+      onSubmitCallback(formValues, isEditing);
     }
   };
 
   return (
     <FormCard 
-      config={config} 
+      config={config}
       onSubmitCallback={handleSubmit}
       onCancel={onCancel}
+      isEditing={isEditing} 
     />
   );
 };
