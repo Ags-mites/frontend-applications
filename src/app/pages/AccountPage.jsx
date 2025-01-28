@@ -2,8 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppLayout } from "../layout/AppLayout";
 import { FormView, TableInfoView } from "../views";
 import { useState } from "react";
-import { format } from "date-fns"; 
-import { EditAccount, NewAccount } from "../../store/account/thunks";
+import { format } from "date-fns";
+import { deleteAccount, editAccount, newAccount } from "../../store/account/thunks";
 
 const AccountFormConfig = {
   initialValues: {
@@ -67,18 +67,17 @@ export const AccountPage = () => {
 
   const handleSubmit = (formValues) => {
     if (editingAccount) {
-      dispatch(EditAccount(formValues));
+      dispatch(editAccount(formValues));
     } else {
-      dispatch(NewAccount(formValues));
+      dispatch(newAccount(formValues));
     }
     setIsFormView(false);
     setEditingAccount(null);
   };
 
   const onClickCreateNewAccount = () => {
-    
     const filteredFields = formConfig.fields.filter(
-      (field) => field.name !== "id" 
+      (field) => field.name !== "id"
     );
     setFormConfig({
       fields: filteredFields,
@@ -109,11 +108,18 @@ export const AccountPage = () => {
       },
       fields: formConfig.fields.some((field) => field.name === "id")
         ? formConfig.fields
-        : [...formConfig.fields, { name: "id", label: "ID", type: "text", readOnly: true }],
+        : [
+            ...formConfig.fields,
+            { name: "id", label: "ID", type: "text", readOnly: true },
+          ],
     });
 
     setIsFormView(true);
     setEditingAccount(accountToEdit);
+  };
+
+  const onDeleteAccount = (accountToDelete) => {
+    dispatch(deleteAccount(accountToDelete.id));
   };
 
   const formattedAccounts = account.map((item) => ({
@@ -129,6 +135,7 @@ export const AccountPage = () => {
           headers={headers}
           onCreateItem={onClickCreateNewAccount}
           onEditItem={onEditAccount}
+          onDeleteItem={onDeleteAccount}
         />
       ) : (
         <FormView

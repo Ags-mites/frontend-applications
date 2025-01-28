@@ -1,4 +1,4 @@
-export const CreateResourse = async (newResource, attr) => {
+export const createResourse = async (newResource, attr) => {
   if (!newResource && !attr) return null;
 
   const url = `${import.meta.env.VITE_BASE_URL}/api/v1/${attr}`;
