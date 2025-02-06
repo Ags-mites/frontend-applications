@@ -1,33 +1,25 @@
+import { useDispatch, useSelector } from "react-redux";
 import { AppLayout } from "../layout/AppLayout";
-import { OutlinedCard, FormCard, Switch1 } from "../ui";
+import { FormView, TableInfoView } from "../views";
+import { useState } from "react";
+import { format } from "date-fns";
 import {
-  Autocomplete,
-  Card,
-  CardContent,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
+  deleteAccountType,
+  editAccountType,
+  newAccountType,
+} from "../../store/account/thunks";
 
-export const createAccountConfig = {
+const AccountTypeFormConfig = {
   initialValues: {
-    cod: "",
+    code: "",
     name: "",
-    accoutType: "",
+    description: "",
     status: "",
   },
   fields: [
-    { name: "cod", label: "Código", type: "text" },
+    { name: "code", label: "Código", type: "text" },
     { name: "name", label: "Nombre", type: "text" },
-    {
-      name: "accoutType",
-      label: "Tipo de cuenta",
-      type: "select",
-      options: [
-        { label: "The Godfather", id: 1 },
-        { label: "Pulp Fiction", id: 2 },
-      ],
-    },
+    { name: "description", label: "Descripción", type: "text" },
     {
       name: "status",
       label: "Estado",
@@ -40,60 +32,104 @@ export const createAccountConfig = {
   ],
 };
 
+const headers = {
+  id: "ID",
+  code: "Código",
+  name: "Nombre",
+  description: "Descripción",
+  status: "Estado",
+  createdAt: "Fecha de Creación",
+};
+
 export const AccountTypePage = () => {
-  const handleSubmit = () => {
-    if (onSubmit) {
-      onSubmit(formValues);
+  const dispatch = useDispatch();
+  const { accountType } = useSelector((state) => state.app);
+
+  const [isFormView, setIsFormView] = useState(false);
+  const [editingAccountType, setEditingAccountType] = useState(null);
+
+  const [formConfig, setFormConfig] = useState({
+    ...AccountTypeFormConfig,
+  });
+
+  const handleSubmit = (formValues) => {
+    if (editingAccountType) {
+      dispatch(editAccountType(formValues));
+    } else {
+      dispatch(newAccountType(formValues));
     }
+    setIsFormView(false);
+    setEditingAccountType(null);
   };
+
+  const onClickCreateNewAccountType = () => {
+    const filteredFields = formConfig.fields.filter(
+      (field) => field.name !== "id"
+    );
+    setFormConfig({
+      fields: filteredFields,
+      initialValues: {
+        code: "",
+        name: "",
+        description: "",
+        status: "",
+      },
+    });
+    setIsFormView(true);
+    setEditingAccountType(null);
+  };
+
+  const onEditAccountType = (accountTypeToEdit) => {
+    const mappedStatus = accountTypeToEdit.status === "Activo" ? 1 : 2;
+
+    setFormConfig({
+      ...formConfig,
+      initialValues: {
+        id: accountTypeToEdit.id || "",
+        code: accountTypeToEdit.code || "",
+        name: accountTypeToEdit.name || "",
+        description: accountTypeToEdit.description || "",
+        status: mappedStatus,
+      },
+      fields: formConfig.fields.some((field) => field.name === "id")
+        ? formConfig.fields
+        : [
+            ...formConfig.fields,
+            { name: "id", label: "ID", type: "text", readOnly: true },
+          ],
+    });
+
+    setIsFormView(true);
+    setEditingAccountType(accountTypeToEdit);
+  };
+
+  const onDeleteAccountType = (accountTypeToDelete) => {
+    dispatch(deleteAccountType(accountTypeToDelete.id));
+  };
+
+  const formattedAccountTypes = accountType.map((item) => ({
+    ...item,
+    createdAt: format(new Date(item.createdAt), "dd/MM/yyyy HH:mm:ss"),
+  }));
+
   return (
     <AppLayout>
-      <Typography variant="h6">Gestionar cuentas</Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={6} sx={{ mt: 2 }}>
-          <OutlinedCard
-            title="Crear cuenta"
-            subtitle="Aquí se podrán crear las cuentas"
-          >
-            <FormCard
-              config={createAccountConfig}
-              onSubmitCallback={handleSubmit}
-            />
-          </OutlinedCard>
-        </Grid>
-        <Grid item xs={6} sx={{ mt: 2 }}>
-          <OutlinedCard
-            title="Editar cuenta"
-            subtitle="Aquí se podrán editar las cuentas"
-          >
-            <FormCard
-              config={createAccountConfig}
-              onSubmitCallback={handleSubmit}
-            />
-          </OutlinedCard>
-        </Grid>
-        <Grid item xs={6} sx={{ mt: 2 }}>
-          <OutlinedCard title="Eliminar" subtitle="Eliminar cuentas">
-            <Autocomplete
-              disablePortal
-              options={[
-                { label: "The Godfather", id: 1 },
-                { label: "Pulp Fiction", id: 2 },
-              ]}
-              size="small"
-              renderInput={(params) => (
-                <TextField {...params} label="Película" />
-              )}
-            />
-          </OutlinedCard>
-        </Grid>
-      </Grid>
-      <Grid container>
-        <Grid item xs={12} sx={{ mt: 2 }}>
-          <OutlinedCard title="Eliminar" subtitle="Eliminar cuentas">
-          </OutlinedCard>
-        </Grid>
-      </Grid>
+      {!isFormView ? (
+        <TableInfoView
+          data={formattedAccountTypes}
+          headers={headers}
+          onCreateItem={onClickCreateNewAccountType}
+          onEditItem={onEditAccountType}
+          onDeleteItem={onDeleteAccountType}
+        />
+      ) : (
+        <FormView
+          config={formConfig}
+          isEditing={!!editingAccountType}
+          onSubmitCallback={handleSubmit}
+          onCancel={() => setIsFormView(false)}
+        />
+      )}
     </AppLayout>
   );
 };

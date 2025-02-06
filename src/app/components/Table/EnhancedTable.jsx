@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Table,
@@ -16,14 +16,18 @@ import { EnhancedTableHead } from "./EnhancedTableHead";
 import { EnhancedTableToolbar } from "./EnhancedTableToolbar";
 import { EnhancedTableRow } from "./EnhancedTableRow";
 
-export const EnhancedTable = ({headers, data, onEditItem}) => {
-  
+export const EnhancedTable = ({ headers, data, onEditItem, onDeleteItem }) => {
   const [rows, setRows] = useState(data);
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("id");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [dense, setDense] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    setRows(data);
+  }, [data]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -44,17 +48,25 @@ export const EnhancedTable = ({headers, data, onEditItem}) => {
     setDense(event.target.checked);
   };
 
+  const handleSearch = (term) => {
+    setSearchTerm(term.toLowerCase());
+  };
+
+  const filteredRows = rows.filter((row) =>
+    Object.values(row).some((value) =>
+      value.toString().toLowerCase().includes(searchTerm)
+    )
+  );
+
   const handleEdit = (row) => {
-    console.log("Editando", row);
-    onEditItem()
+    onEditItem(row);
   };
 
   const handleDelete = (row) => {
-    console.log("Eliminando", row);
-    setRows(rows.filter(r => r.id !== row.id));
+    onDeleteItem(row);
   };
 
-  const visibleRows = rows
+  const visibleRows = filteredRows
     .slice()
     .sort(getComparator(order, orderBy))
     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
@@ -62,7 +74,7 @@ export const EnhancedTable = ({headers, data, onEditItem}) => {
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar />
+        <EnhancedTableToolbar onSearch={handleSearch} />
         <TableContainer>
           <Table size={dense ? "small" : "medium"}>
             <EnhancedTableHead
@@ -87,7 +99,7 @@ export const EnhancedTable = ({headers, data, onEditItem}) => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={filteredRows.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -96,7 +108,7 @@ export const EnhancedTable = ({headers, data, onEditItem}) => {
       </Paper>
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
+        label="Eliminar relleno"
       />
     </Box>
   );

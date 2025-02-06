@@ -22,8 +22,35 @@ export const accountSlice = createSlice({
     setCreateItem: (state) => {
       state.activeTable = false;
     },
-    setEditItem: (state, action) => {
-      state.activeTable = false;
+    addNewAccount: (state, action) => {
+      state.account.push(action.payload);
+      state.isSaving = false;
+    },
+    setEditAccount: (state, action) => {
+      state.account = state.account.map((account) => {
+        if (account.id === action.payload.id) {
+          return action.payload;
+        }
+        return account;
+      });
+    },
+    setDeleteAccount: (state, action) => {
+      state.account = state.account.filter((account) => account.id !== action.payload);
+    },
+    addNewAccountType: (state, action) => {
+      state.accountType.push(action.payload);
+      state.isSaving = false;
+    },
+    setEditAccountType: (state, action) => {
+      state.accountType = state.accountType.map((accountType) => {
+        if (accountType.id === action.payload.id) {
+          return action.payload;
+        }
+        return accountType;
+      });
+    },
+    setDeleteAccountType: (state, action) => {
+      state.accountType = state.accountType.filter((accountType) => accountType.id !== action.payload);
     },
     clearActiveItem: (state) => {
       state.activeTable = true;
@@ -32,9 +59,14 @@ export const accountSlice = createSlice({
 });
 
 export const {
-  savingNewItem,
-  setData,
-  setCreateItem,
-  setEditItem,
+  addNewAccount,
+  addNewAccountType,
   clearActiveItem,
+  savingNewItem,
+  setCreateItem,
+  setData,
+  setDeleteAccount,
+  setDeleteAccountType,
+  setEditAccount,
+  setEditAccountType,
 } = accountSlice.actions;
