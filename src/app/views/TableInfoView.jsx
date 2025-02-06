@@ -2,16 +2,16 @@ import { Box, Button, Grid, Typography } from "@mui/material";
 import { OutlinedCard } from "../ui";
 import { EnhancedTable } from "../components";
 
-export const TableInfoView = ({ data, headers, onCreateItem, onEditItem, onDeleteItem }) => {
+export const TableInfoView = ({ data, headers, onCreateItem, onEditItem, onDeleteItem, title, titleButton }) => {
   return (
     <>
       <Grid container spacing={2} alignItems="center">
         <Grid item xs={6}>
-          <Typography variant="h6">Gestionar cuentas</Typography>
+          <Typography variant="h6">{title}</Typography>
         </Grid>
         <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Button variant="outlined" onClick={() => onCreateItem()}>
-            Crear Cuenta
+            {titleButton}
           </Button>
         </Grid>
       </Grid>

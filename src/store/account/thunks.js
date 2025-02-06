@@ -40,7 +40,7 @@ export const newAccount = ({
       accountTypeId: accountType,
     };
 
-    const res = await createResourse(newAccount, "account");
+    const res = await createResourse(newAccount, "accounts");
 
     dispatch(addNewAccount(res));
   };
@@ -63,7 +63,7 @@ export const editAccount = ({
       description,
       accountTypeId: accountType,
     };
-    const res = await updateResourse(editAccount, "account", id);
+    const res = await updateResourse(editAccount, "accounts", id);
 
     dispatch(setEditAccount(res));
   };
@@ -71,7 +71,7 @@ export const editAccount = ({
 
 export const deleteAccount = (id) => {
   return async (dispatch) => {
-    await deleteResourse("account", id);
+    await deleteResourse("accounts", id);
     dispatch(setDeleteAccount(id));
   };
 };
@@ -85,7 +85,7 @@ export const newAccountType = ({ code, description, name, status }) => {
       description,
     };
 
-    const res = await createResourse(newAccountType, "accountType");
+    const res = await createResourse(newAccountType, "accountTypes");
 
     dispatch(addNewAccountType(res));
   };
@@ -100,7 +100,7 @@ export const editAccountType = ({ id, name, status, description, code }) => {
       status: status === 1 ? "Active" : "Inactive",
       description,
     };
-    const res = await updateResourse(editAccountType, "accountType", id);
+    const res = await updateResourse(editAccountType, "accountTypes", id);
 
     dispatch(setEditAccountType(res));
   };
@@ -108,7 +108,7 @@ export const editAccountType = ({ id, name, status, description, code }) => {
 
 export const deleteAccountType = (id) => {
   return async (dispatch) => {
-    await deleteResourse("accountType", id);
+    await deleteResourse("accountTypes", id);
     dispatch(setDeleteAccountType(id));
   };
 };

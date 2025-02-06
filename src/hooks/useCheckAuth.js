@@ -20,7 +20,7 @@ export const useCheckAuth = () => {
             const { uid, email, displayName, photoURL } = user;
             dispatch( login({ uid, email, displayName, photoURL }) );
             //*Accounts
-            const resources = ["account", "accountType", "voucher", "voucherType"];
+            const resources = ["accounts", "accountTypes","vouchers"];
             resources.forEach((resource) => {
               dispatch(startLoadingData(resource));
             });

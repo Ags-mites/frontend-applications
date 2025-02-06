@@ -43,7 +43,7 @@ const headers = {
 
 export const AccountTypePage = () => {
   const dispatch = useDispatch();
-  const { accountType } = useSelector((state) => state.app);
+  const { accountTypes } = useSelector((state) => state.app);
 
   const [isFormView, setIsFormView] = useState(false);
   const [editingAccountType, setEditingAccountType] = useState(null);
@@ -107,7 +107,7 @@ export const AccountTypePage = () => {
     dispatch(deleteAccountType(accountTypeToDelete.id));
   };
 
-  const formattedAccountTypes = accountType.map((item) => ({
+  const formattedAccountTypes = accountTypes.map((item) => ({
     ...item,
     createdAt: format(new Date(item.createdAt), "dd/MM/yyyy HH:mm:ss"),
   }));
@@ -121,6 +121,8 @@ export const AccountTypePage = () => {
           onCreateItem={onClickCreateNewAccountType}
           onEditItem={onEditAccountType}
           onDeleteItem={onDeleteAccountType}
+          titleButton="Crear tipo de cuenta"
+          title="Tipo de cuentas"
         />
       ) : (
         <FormView

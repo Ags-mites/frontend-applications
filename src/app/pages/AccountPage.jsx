@@ -46,12 +46,12 @@ const headers = {
 
 export const AccountPage = () => {
   const dispatch = useDispatch();
-  const { account, accountType } = useSelector((state) => state.app);
+  const { accounts, accountTypes } = useSelector((state) => state.app);
 
   const [isFormView, setIsFormView] = useState(false);
   const [editingAccount, setEditingAccount] = useState(null);
 
-  const accountTypeOptions = accountType.map((type) => ({
+  const accountTypeOptions = accountTypes.map((type) => ({
     label: type.name,
     id: type.id,
   }));
@@ -122,7 +122,7 @@ export const AccountPage = () => {
     dispatch(deleteAccount(accountToDelete.id));
   };
 
-  const formattedAccounts = account.map((item) => ({
+  const formattedAccounts = accounts.map((item) => ({
     ...item,
     createdAt: format(new Date(item.createdAt), "dd/MM/yyyy HH:mm:ss"),
   }));
@@ -136,6 +136,8 @@ export const AccountPage = () => {
           onCreateItem={onClickCreateNewAccount}
           onEditItem={onEditAccount}
           onDeleteItem={onDeleteAccount}
+          titleButton="Crear Cuenta"
+          title="Cuentas"
         />
       ) : (
         <FormView
