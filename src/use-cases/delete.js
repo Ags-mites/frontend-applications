@@ -1,7 +1,7 @@
 export const deleteResourse = async (attr, id) => {
   if (!id && !attr) return null;
 
-  const url = `${import.meta.env.VITE_BASE_URL}/api/v1/${attr}/${id}`;
+  const url = `${import.meta.env.VITE_BASE_URL}/${attr}/${id}`;
 
   try {
     const resp = await fetch(url, {

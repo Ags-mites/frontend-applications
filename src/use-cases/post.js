@@ -1,7 +1,7 @@
 export const createResourse = async (newResource, attr) => {
   if (!newResource && !attr) return null;
 
-  const url = `${import.meta.env.VITE_BASE_URL}/api/v1/${attr}`;
+  const url = `${import.meta.env.VITE_BASE_URL}/${attr}`;
 
   try {
     const resp = await fetch(url, {

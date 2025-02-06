@@ -6,10 +6,9 @@ export const accountSlice = createSlice({
     isSaving: false,
     messageSaved: "",
     activeTable: true,
-    account: [],
-    accountType: [],
-    voucher: [],
-    voucherType: [],
+    accounts: [],
+    accountTypes: [],
+    vouchers: [],
   },
   reducers: {
     savingNewItem: (state) => {
@@ -23,11 +22,11 @@ export const accountSlice = createSlice({
       state.activeTable = false;
     },
     addNewAccount: (state, action) => {
-      state.account.push(action.payload);
+      state.accounts.push(action.payload);
       state.isSaving = false;
     },
     setEditAccount: (state, action) => {
-      state.account = state.account.map((account) => {
+      state.accounts = state.accounts.map((account) => {
         if (account.id === action.payload.id) {
           return action.payload;
         }
@@ -35,14 +34,14 @@ export const accountSlice = createSlice({
       });
     },
     setDeleteAccount: (state, action) => {
-      state.account = state.account.filter((account) => account.id !== action.payload);
+      state.accounts = state.accounts.filter((account) => account.id !== action.payload);
     },
     addNewAccountType: (state, action) => {
-      state.accountType.push(action.payload);
+      state.accountTypes.push(action.payload);
       state.isSaving = false;
     },
     setEditAccountType: (state, action) => {
-      state.accountType = state.accountType.map((accountType) => {
+      state.accountTypes = state.accountTypes.map((accountType) => {
         if (accountType.id === action.payload.id) {
           return action.payload;
         }
@@ -50,7 +49,7 @@ export const accountSlice = createSlice({
       });
     },
     setDeleteAccountType: (state, action) => {
-      state.accountType = state.accountType.filter((accountType) => accountType.id !== action.payload);
+      state.accountTypes = state.accountTypes.filter((accountType) => accountType.id !== action.payload);
     },
     clearActiveItem: (state) => {
       state.activeTable = true;

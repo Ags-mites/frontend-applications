@@ -1,0 +1,159 @@
+{
+  "account": [
+    {
+      "id": 2,
+      "code": "ACC001",
+      "name": "Caja General",
+      "status": "Inactive",
+      "description": "Cuenta principal para efectivo",
+      "createdAt": "2025-01-28T01:26:03.2158175",
+      "accountTypeId": 1,
+      "accountTypeName": "Activo"
+    },
+    {
+      "id": 3,
+      "code": "ACC002",
+      "name": "Bancos",
+      "status": "Active",
+      "description": "Cuenta para depósitos bancarios",
+      "createdAt": "2025-01-28T01:26:03.2240768",
+      "accountTypeId": 1,
+      "accountTypeName": "Activo"
+    },
+    {
+      "id": 4,
+      "code": "ACC003",
+      "name": "Cuenta Terciaria",
+      "status": "Active",
+      "description": "Cuenta terciaria de prueba",
+      "createdAt": "2025-01-28T01:26:03.2272569",
+      "accountTypeId": 1,
+      "accountTypeName": "Activo"
+    },
+    {
+      "id": 6,
+      "code": "ACC005",
+      "name": "Cuentas por Pagar",
+      "status": "Active",
+      "description": "Cuenta para registrar obligaciones con proveedores",
+      "createdAt": "2025-01-28T01:26:03.2339739",
+      "accountTypeId": 1,
+      "accountTypeName": "Activo"
+    }
+  ],
+  "accountType": [
+    {
+      "id": 1,
+      "code": "TYPE1",
+      "name": "Checking",
+      "status": "Active",
+      "description": "Checking Account Type",
+      "createdAt": "2025-01-01T10:00:00Z",
+      "updatedAt": "2025-01-15T12:00:00Z"
+    }
+  ],
+  "movement": [
+    {
+      "id": 1,
+      "contact": "John Doe",
+      "descriptionVoucher": "Payment received",
+      "debit": 500.00,
+      "credit": 0.00,
+      "createdAt": "2025-01-05T14:30:00Z",
+      "updatedAt": "2025-01-06T15:00:00Z",
+      "accountId": 1,
+      "accountTypeId": 1
+    }
+  ],
+  "payrollHeader": [
+    {
+      "id": 1,
+      "number": "PH-001",
+      "workerid": 1,
+      "description": "January Payroll",
+      "datePayroll": "2025-01-31T00:00:00Z",
+      "createdAt": "2025-01-01T10:00:00Z",
+      "updatedAt": "2025-01-15T12:00:00Z"
+    }
+  ],
+  "payrollDetail": [
+    {
+      "id": 1,
+      "reasonId": 1,
+      "payrollId": 1,
+      "price": 1500.00,
+      "createdAt": "2025-01-01T10:00:00Z",
+      "updatedAt": "2025-01-15T12:00:00Z"
+    }
+  ],
+  "reason": [
+    {
+      "id": 1,
+      "name": "Salary Payment",
+      "code": "SAL001",
+      "type": "Credit",
+      "createdAt": "2025-01-01T10:00:00Z"
+    }
+  ],
+  "worker": [
+    {
+      "id": 1,
+      "idCard": "A1234567",
+      "name": "John Smith",
+      "dateAdmission": "2023-06-15T00:00:00Z",
+      "salary": 1500.00,
+      "createdAt": "2025-01-01T10:00:00Z"
+    }
+  ],
+  "entryHeader": [
+    {
+      "id": 1,
+      "entryDate": "2025-02-01T10:00:00Z",
+      "voucherType": "Invoice",
+      "numeration": "INV-001",
+      "notes": "Monthly revenue",
+      "createdAt": "2025-01-20T09:00:00Z",
+      "updatedAt": "2025-01-22T09:30:00Z"
+    }
+  ],
+  "entryDetail": [
+    {
+      "id": 1,
+      "entryId": 1,
+      "account": 1,
+      "accountName": "Main Account",
+      "description": "Service payment",
+      "debitAmount": 200.00,
+      "creditAmount": null,
+      "createdAt": "2025-01-20T09:00:00Z",
+      "updatedAt": "2025-01-22T09:30:00Z"
+    }
+  ],
+  "clientsFac": [
+    {
+      "id": 1,
+      "ruc": "123456789",
+      "nombre": "Tech Corp",
+      "apellido": "Inc",
+      "direccion": "123 Business St.",
+      "timeCli": "2025-01-01T12:00:00Z",
+      "ciudadEntrFacId": 1
+    }
+  ],
+  "ciudadEntrFac": [
+    {
+      "id": 1,
+      "ciudadEntrega": "New York",
+      "dolaresVendidos": "50000"
+    }
+  ],
+  "facturacionCliente": [
+    {
+      "id": 1,
+      "descripcionProd": "Software Development",
+      "cantidadProd": 1,
+      "precioUnitario": 5000,
+      "precioTotal": 5000
+    }
+  ]
+}

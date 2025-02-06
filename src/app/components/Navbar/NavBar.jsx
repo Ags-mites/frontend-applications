@@ -33,10 +33,10 @@ export const NavBar = ({ drawerWidth = 240 }) => {
                 <Typography variant='h6' noWrap component='div'> Aplicaciones Distribuidas </Typography>
 
                 <IconButton 
-                    color='error'
+                    color='light'
                     onClick={ onLogout }
                 >
-                    <LogoutOutlined />
+                    <Typography variant='h6' noWrap component='div'> Salir </Typography> <LogoutOutlined />
                 </IconButton>
             </Grid>
 
