@@ -9,7 +9,7 @@ const VoucherFormConfig = {
     numeration: "",
     voucherDate: "",
     notes: "",
-    voucherType: ""
+    voucherType: "",
   },
   fields: [
     { name: "numeration", label: "Numeración", type: "text" },
@@ -28,6 +28,22 @@ const headers = {
   updatedAt: "Última Actualización",
 };
 
+const tableConfig = {
+  title: "Detalles del Comprobante",
+  columns: [
+    { name: "account", label: "Cuenta", type: "text", defaultValue: "" },
+    { name: "contact", label: "Contacto", type: "text", defaultValue: "" },
+    {
+      name: "description",
+      label: "Descripción",
+      type: "text",
+      defaultValue: "",
+    },
+    { name: "debit", label: "Débito", type: "number", defaultValue: 0 },
+    { name: "credit", label: "Crédito", type: "number", defaultValue: 0 },
+  ],
+};
+
 export const VoucherPage = () => {
   const dispatch = useDispatch();
   const { vouchers } = useSelector((state) => state.app);
@@ -38,9 +54,9 @@ export const VoucherPage = () => {
 
   const handleSubmit = (formValues) => {
     if (editingVoucher) {
-      dispatch(editVoucher(formValues));
+      console.log("Editar voucher", formValues);
     } else {
-      dispatch(newVoucher(formValues));
+      console.log("Guardar voucher", formValues);
     }
     setIsFormView(false);
     setEditingVoucher(null);
@@ -99,7 +115,8 @@ export const VoucherPage = () => {
       ) : (
         <FormViewTable
           config={formConfig}
-          onSubmit={handleSubmit}
+          tableConfig={tableConfig}
+          onSubmitCallback={handleSubmit}
           onCancel={() => setIsFormView(false)}
         />
       )}

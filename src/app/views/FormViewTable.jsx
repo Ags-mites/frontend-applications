@@ -1,27 +1,41 @@
 import { useState } from "react";
-import { FormCard } from "../ui";
-import { Table, Button, Input, Select } from "@mui/material";
-/* import { Table, Button, Input, Select } from "../components/ui"; */
+import { FormCard, OutlinedCard } from "../ui";
+import {
+  Table,
+  Button,
+  Grid,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  TableFooter,
+  TextField,
+  Select,
+  MenuItem,
+} from "@mui/material";
 
 export const FormViewTable = ({
   config,
+  tableConfig,
   onSubmitCallback,
   onCancel,
   isEditing,
 }) => {
   const [entries, setEntries] = useState([]);
 
-  const handleSubmit = (formValues) => {
+  const handleSubmit = (formValues, isEditing) => {
     if (onSubmitCallback) {
       onSubmitCallback({ ...formValues, entries }, isEditing);
     }
   };
 
   const handleAddRow = () => {
-    setEntries([
-      ...entries,
-      { account: "", contact: "", description: "", debit: 0, credit: 0 },
-    ]);
+    const newRow = tableConfig.columns.reduce((acc, col) => {
+      acc[col.name] = col.defaultValue || "";
+      return acc;
+    }, {});
+    setEntries([...entries, newRow]);
   };
 
   const handleRemoveRow = (index) => {
@@ -37,81 +51,84 @@ export const FormViewTable = ({
 
   return (
     <>
-      <FormCard
-        config={config}
-        onSubmitCallback={handleSubmit}
-        onCancel={onCancel}
-        isEditing={isEditing}
-      ></FormCard>
-      <h3>Movimientos</h3>
-      <Table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Cuenta Contable</th>
-            <th>Contacto</th>
-            <th>Descripción</th>
-            <th>Débito</th>
-            <th>Crédito</th>
-            <th>Acción</th>
-          </tr>
-        </thead>
-        <tbody>
-          {entries.map((entry, index) => (
-            <tr key={index}>
-              <td>{index + 1}</td>
-              <td>
-                <Select
-                  value={entry.account}
-                  onChange={(e) =>
-                    handleChange(index, "account", e.target.value)
-                  }
-                >
-                  <option value="">Seleccione</option>
-                  <option value="1">Cuenta 1</option>
-                  <option value="2">Cuenta 2</option>
-                </Select>
-              </td>
-              <td>
-                <Input
-                  value={entry.contact}
-                  onChange={(e) =>
-                    handleChange(index, "contact", e.target.value)
-                  }
-                />
-              </td>
-              <td>
-                <Input
-                  value={entry.description}
-                  onChange={(e) =>
-                    handleChange(index, "description", e.target.value)
-                  }
-                />
-              </td>
-              <td>
-                <Input
-                  type="number"
-                  value={entry.debit}
-                  onChange={(e) => handleChange(index, "debit", e.target.value)}
-                />
-              </td>
-              <td>
-                <Input
-                  type="number"
-                  value={entry.credit}
-                  onChange={(e) =>
-                    handleChange(index, "credit", e.target.value)
-                  }
-                />
-              </td>
-              <td>
-                <Button onClick={() => handleRemoveRow(index)}>Eliminar</Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-      <Button onClick={handleAddRow}>+ Agregar fila</Button>
+      <Grid container spacing={2} alignItems="center">
+        <Grid item xs={12}>
+          <FormCard
+            config={config}
+            onSubmitCallback={handleSubmit}
+            onCancel={onCancel}
+            isEditing={isEditing}
+          />
+        </Grid>
+        <Grid item xs={12} sx={{ mt: 2 }}>
+          <OutlinedCard>
+            <h3>{tableConfig.title || "Movimientos"}</h3>
+            <TableContainer>
+              <Table sx={{ minWidth: 650 }} aria-label="dynamic table">
+                <TableHead>
+                  <TableRow>
+                    {tableConfig.columns.map((col) => (
+                      <TableCell key={col.name}>{col.label}</TableCell>
+                    ))}
+                    <TableCell>Acciones</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {entries.map((row, rowIndex) => (
+                    <TableRow key={rowIndex}>
+                      {tableConfig.columns.map((col) => (
+                        <TableCell key={col.name}>
+                          {col.type === "text" || col.type === "number" ? (
+                            <TextField
+                              size="small"
+                              type={col.type}
+                              value={row[col.name]}
+                              onChange={(e) =>
+                                handleChange(rowIndex, col.name, e.target.value)
+                              }
+                            />
+                          ) : col.type === "select" ? (
+                            <Select
+                              size="small"
+                              value={row[col.name]}
+                              onChange={(e) =>
+                                handleChange(rowIndex, col.name, e.target.value)
+                              }
+                            >
+                              {col.options.map((option) => (
+                                <MenuItem key={option} value={option}>
+                                  {option}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          ) : (
+                            row[col.name]
+                          )}
+                        </TableCell>
+                      ))}
+                      <TableCell>
+                        <Button
+                          color="error"
+                          onClick={() => handleRemoveRow(rowIndex)}
+                        >
+                          Eliminar
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+                <TableFooter>
+                  <TableRow>
+                    <TableCell colSpan={tableConfig.columns.length + 1}>
+                      <Button onClick={handleAddRow}>+ Agregar fila</Button>
+                    </TableCell>
+                  </TableRow>
+                </TableFooter>
+              </Table>
+            </TableContainer>
+          </OutlinedCard>
+        </Grid>
+      </Grid>
     </>
   );
 };

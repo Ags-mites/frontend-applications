@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 import {
@@ -10,9 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Google } from "@mui/icons-material";
-
 import { AuthLayout } from "../layout/AuthLayout";
-
 import { useForm } from "../../hooks";
 import {
   startGoogleSignIn,
@@ -24,16 +22,34 @@ const formData = {
   password: "",
 };
 
+const formValidations = {
+  email: [(value) => value.includes("@"), "El correo debe de tener una @"],
+  password: [
+    (value) => value.length >= 6,
+    "El password debe de tener al menos 6 caracteres.",
+  ],
+};
+
 export const LoginPage = () => {
   const { status, errorMessage } = useSelector((state) => state.auth);
-
   const dispatch = useDispatch();
-  const { email, password, onInputChange } = useForm(formData);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  const {
+    email,
+    password,
+    onInputChange,
+    isFormValid,
+    emailValid,
+    passwordValid,
+  } = useForm(formData, formValidations);
 
   const isAuthenticating = useMemo(() => status === "checking", [status]);
 
   const onSubmit = (event) => {
     event.preventDefault();
+    setFormSubmitted(true);
+    if (!isFormValid) return;
     dispatch(startLoginWithEmailPassword({ email, password }));
   };
 
@@ -57,6 +73,8 @@ export const LoginPage = () => {
               name="email"
               value={email}
               onChange={onInputChange}
+              error={!!emailValid && formSubmitted}
+              helperText={emailValid}
             />
           </Grid>
 
@@ -69,6 +87,8 @@ export const LoginPage = () => {
               name="password"
               value={password}
               onChange={onInputChange}
+              error={!!passwordValid && formSubmitted}
+              helperText={passwordValid}
             />
           </Grid>
 
