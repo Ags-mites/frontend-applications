@@ -7,7 +7,7 @@ import {
   deleteAccountType,
   editAccountType,
   newAccountType,
-} from "../../store/account/thunks";
+} from "../../store";
 
 const AccountTypeFormConfig = {
   initialValues: {

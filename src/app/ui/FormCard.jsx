@@ -52,6 +52,18 @@ export const FormCard = ({ config, onSubmitCallback, onCancel, isEditing }) => {
                     size="small"
                   />
                 )}
+                {field.type === "date" && (
+                  <TextField
+                    label={field.label}
+                    name={field.name}
+                    type="date"
+                    value={formState[field.name] || ""}
+                    onChange={onInputChange}
+                    InputLabelProps={{ shrink: true }}
+                    fullWidth
+                    size="small"
+                  />
+                )}
                 {field.type === "select" && (
                   <FormControl fullWidth size="small">
                     <InputLabel id={`${field.name}-label`}>

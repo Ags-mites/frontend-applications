@@ -3,7 +3,7 @@ import { AppLayout } from "../layout/AppLayout";
 import { FormView, TableInfoView } from "../views";
 import { useState } from "react";
 import { format } from "date-fns";
-import { deleteAccount, editAccount, newAccount } from "../../store/account/thunks";
+import { deleteAccount, editAccount, newAccount } from "../../store";
 
 const AccountFormConfig = {
   initialValues: {

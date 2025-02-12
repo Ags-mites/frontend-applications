@@ -1,20 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppLayout } from "../layout/AppLayout";
 import { FormView, FormViewTable, TableInfoView } from "../views";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { format } from "date-fns";
+import { newEntry } from "../../store";
 
 const VoucherFormConfig = {
   initialValues: {
     numeration: "",
-    voucherDate: "",
+    entryDate: "",
     notes: "",
     voucherType: "",
   },
   fields: [
     { name: "numeration", label: "Numeración", type: "text" },
     { name: "voucherType", label: "Tipo de comprobante", type: "text" },
-    { name: "voucherDate", label: "Fecha del Voucher", type: "text" },
+    { name: "entryDate", label: "Fecha del Voucher", type: "date" },
     { name: "notes", label: "Notas", type: "text" },
   ],
 };
@@ -22,7 +23,7 @@ const VoucherFormConfig = {
 const headers = {
   id: "ID",
   numeration: "Numeración",
-  voucherDate: "Fecha del Voucher",
+  entryDate: "Fecha del Voucher",
   notes: "Notas",
   createdAt: "Fecha de Creación",
   updatedAt: "Última Actualización",
@@ -31,8 +32,13 @@ const headers = {
 const tableConfig = {
   title: "Detalles del Comprobante",
   columns: [
-    { name: "account", label: "Cuenta", type: "text", defaultValue: "" },
-    { name: "contact", label: "Contacto", type: "text", defaultValue: "" },
+    {
+      name: "account",
+      label: "Cuenta",
+      type: "select",
+      defaultValue: "",
+      options: [],
+    },
     {
       name: "description",
       label: "Descripción",
@@ -46,17 +52,33 @@ const tableConfig = {
 
 export const VoucherPage = () => {
   const dispatch = useDispatch();
-  const { vouchers } = useSelector((state) => state.app);
+  const { vouchers, accounts } = useSelector((state) => state.app);
+
+  const accountOptions = accounts.map((type) => ({
+    label: type.name,
+    id: type.id,
+  }));
 
   const [isFormView, setIsFormView] = useState(false);
   const [editingVoucher, setEditingVoucher] = useState(null);
   const [formConfig, setFormConfig] = useState({ ...VoucherFormConfig });
+  const tableConfigWithAccount = useMemo(() => ({
+    ...tableConfig,
+    columns: tableConfig.columns.map((column) =>
+      column.name === "account"
+        ? { ...column, options: accounts.map((type) => ({
+            label: type.name,
+            id: type.id,
+          })) }
+        : column
+    ),
+  }), [accounts]);
 
   const handleSubmit = (formValues) => {
     if (editingVoucher) {
       console.log("Editar voucher", formValues);
     } else {
-      console.log("Guardar voucher", formValues);
+      dispatch(newEntry(formValues));
     }
     setIsFormView(false);
     setEditingVoucher(null);
@@ -74,7 +96,7 @@ export const VoucherPage = () => {
       initialValues: {
         id: voucherToEdit.id || "",
         numeration: voucherToEdit.numeration || "",
-        voucherDate: voucherToEdit.voucherDate || "",
+        entryDate: voucherToEdit.entryDate || "",
         notes: voucherToEdit.notes || "",
       },
       fields: formConfig.fields.some((field) => field.name === "id")
@@ -95,7 +117,7 @@ export const VoucherPage = () => {
 
   const formattedVouchers = vouchers.map((item) => ({
     ...item,
-    voucherDate: format(new Date(item.voucherDate), "dd/MM/yyyy HH:mm:ss"),
+    entryDate: format(new Date(item.entryDate), "dd/MM/yyyy HH:mm:ss"),
     createdAt: format(new Date(item.createdAt), "dd/MM/yyyy HH:mm:ss"),
     updatedAt: format(new Date(item.updatedAt), "dd/MM/yyyy HH:mm:ss"),
   }));
@@ -115,7 +137,7 @@ export const VoucherPage = () => {
       ) : (
         <FormViewTable
           config={formConfig}
-          tableConfig={tableConfig}
+          tableConfig={tableConfigWithAccount}
           onSubmitCallback={handleSubmit}
           onCancel={() => setIsFormView(false)}
         />

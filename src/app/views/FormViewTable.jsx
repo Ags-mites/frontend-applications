@@ -55,6 +55,7 @@ export const FormViewTable = ({
         <Grid item xs={12}>
           <FormCard
             config={config}
+            InputLabelProps={{ shrink: true }}
             onSubmitCallback={handleSubmit}
             onCancel={onCancel}
             isEditing={isEditing}
@@ -90,14 +91,19 @@ export const FormViewTable = ({
                           ) : col.type === "select" ? (
                             <Select
                               size="small"
-                              value={row[col.name]}
+                              value={row[col.name] || ""}
                               onChange={(e) =>
                                 handleChange(rowIndex, col.name, e.target.value)
                               }
+                              sx={{ minWidth: 150 }}
+                              displayEmpty
                             >
+                              <MenuItem value="" disabled>
+                                Selecciona una opción
+                              </MenuItem>
                               {col.options.map((option) => (
-                                <MenuItem key={option} value={option}>
-                                  {option}
+                                <MenuItem key={option.id} value={option.id}>
+                                  {option.label}
                                 </MenuItem>
                               ))}
                             </Select>

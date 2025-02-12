@@ -112,3 +112,26 @@ export const deleteAccountType = (id) => {
     dispatch(setDeleteAccountType(id));
   };
 };
+
+
+export const newEntry = ({
+  code,
+  description,
+  name,
+  status,
+  accountType,
+}) => {
+  console.log(formValues);
+  /* return async (dispatch) => {
+    const newAccountType = {
+      code,
+      name,
+      status: status === 1 ? "Active" : "Inactive",
+      description,
+    };
+
+    const res = await createResourse(newAccountType, "accountTypes");
+
+    dispatch(addNewAccountType(res));
+  }; */
+};
