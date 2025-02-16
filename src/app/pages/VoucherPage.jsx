@@ -3,7 +3,7 @@ import { AppLayout } from "../layout/AppLayout";
 import { FormView, FormViewTable, TableInfoView } from "../views";
 import { useMemo, useState } from "react";
 import { format } from "date-fns";
-import { newEntry } from "../../store";
+import { deleteEntry, editEntry, newEntry } from "../../store";
 
 const VoucherFormConfig = {
   initialValues: {
@@ -54,29 +54,28 @@ export const VoucherPage = () => {
   const dispatch = useDispatch();
   const { vouchers, accounts } = useSelector((state) => state.app);
 
+  
+  const [isFormView, setIsFormView] = useState(false);
+  const [editingVoucher, setEditingVoucher] = useState(null);
+  const [formConfig, setFormConfig] = useState({ ...VoucherFormConfig });
+
   const accountOptions = accounts.map((type) => ({
     label: type.name,
     id: type.id,
   }));
-
-  const [isFormView, setIsFormView] = useState(false);
-  const [editingVoucher, setEditingVoucher] = useState(null);
-  const [formConfig, setFormConfig] = useState({ ...VoucherFormConfig });
+  
   const tableConfigWithAccount = useMemo(() => ({
     ...tableConfig,
     columns: tableConfig.columns.map((column) =>
       column.name === "account"
-        ? { ...column, options: accounts.map((type) => ({
-            label: type.name,
-            id: type.id,
-          })) }
+        ? { ...column, options: accountOptions }
         : column
     ),
   }), [accounts]);
 
   const handleSubmit = (formValues) => {
     if (editingVoucher) {
-      console.log("Editar voucher", formValues);
+      dispatch(editEntry(formValues));
     } else {
       dispatch(newEntry(formValues));
     }
@@ -98,6 +97,7 @@ export const VoucherPage = () => {
         numeration: voucherToEdit.numeration || "",
         entryDate: voucherToEdit.entryDate || "",
         notes: voucherToEdit.notes || "",
+        voucherType: voucherToEdit.entryType || "",
       },
       fields: formConfig.fields.some((field) => field.name === "id")
         ? formConfig.fields
@@ -112,7 +112,7 @@ export const VoucherPage = () => {
   };
 
   const onDeleteVoucher = (voucherToDelete) => {
-    dispatch(deleteVoucher(voucherToDelete.id));
+    dispatch(deleteEntry(voucherToDelete.id));
   };
 
   const formattedVouchers = vouchers.map((item) => ({

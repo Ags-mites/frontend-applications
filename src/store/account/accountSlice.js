@@ -34,7 +34,9 @@ export const accountSlice = createSlice({
       });
     },
     setDeleteAccount: (state, action) => {
-      state.accounts = state.accounts.filter((account) => account.id !== action.payload);
+      state.accounts = state.accounts.filter(
+        (account) => account.id !== action.payload
+      );
     },
     addNewAccountType: (state, action) => {
       state.accountTypes.push(action.payload);
@@ -49,7 +51,26 @@ export const accountSlice = createSlice({
       });
     },
     setDeleteAccountType: (state, action) => {
-      state.accountTypes = state.accountTypes.filter((accountType) => accountType.id !== action.payload);
+      state.accountTypes = state.accountTypes.filter(
+        (accountType) => accountType.id !== action.payload
+      );
+    },
+    addNewEntry: (state, action) => {
+      state.vouchers.push(action.payload);
+      state.isSaving = false;
+    },
+    setEditEntry: (state, action) => {
+      state.vouchers = state.vouchers.map((voucher) => {
+        if (voucher.id === action.payload.id) {
+          return action.payload;
+        }
+        return voucher;
+      });
+    },
+    setDeleteEntry: (state, action) => {
+      state.vouchers = state.vouchers.filter(
+        (voucher) => voucher.id !== action.payload
+      );
     },
     clearActiveItem: (state) => {
       state.activeTable = true;
@@ -68,4 +89,7 @@ export const {
   setDeleteAccountType,
   setEditAccount,
   setEditAccountType,
+  addNewEntry,
+  setEditEntry,
+  setDeleteEntry,
 } = accountSlice.actions;

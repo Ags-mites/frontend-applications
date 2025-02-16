@@ -8,11 +8,14 @@ import {
 import {
   addNewAccount,
   addNewAccountType,
+  addNewEntry,
   setData,
   setDeleteAccount,
   setDeleteAccountType,
+  setDeleteEntry,
   setEditAccount,
   setEditAccountType,
+  setEditEntry,
 } from "./accountSlice";
 
 export const startLoadingData = (resource) => {
@@ -113,25 +116,63 @@ export const deleteAccountType = (id) => {
   };
 };
 
-
 export const newEntry = ({
-  code,
-  description,
-  name,
-  status,
-  accountType,
+  entries,
+  entryDate,
+  notes,
+  voucherType,
+  numeration,
 }) => {
-  console.log(formValues);
-  /* return async (dispatch) => {
-    const newAccountType = {
-      code,
-      name,
-      status: status === 1 ? "Active" : "Inactive",
-      description,
+  return async (dispatch) => {
+    const newEntry = {
+      entryDate,
+      numeration,
+      notes,
+      entryType: voucherType,
+      entryDetails: entries.map(({ account, credit, debit, description }) => ({
+        accountId: account,
+        description,
+        debitAmount: debit,
+        creditAmount: credit,
+      })),
     };
+    const res = await createResourse(newEntry, "vouchers");
+    dispatch(addNewEntry(res));
+  };
+};
 
-    const res = await createResourse(newAccountType, "accountTypes");
+export const editEntry = ({
+  id,
+  entries,
+  entryDate,
+  notes,
+  voucherType,
+  numeration,
+}) => {
+  return async (dispatch) => {
+    const editEntry = {
+      id,
+      entryDate,
+      numeration,
+      notes,
+      entryType: voucherType,
+      entryDetails: entries.map(({ account, credit, debit, description }) => ({
+        accountId: account,
+        description,
+        debitAmount: debit,
+        creditAmount: credit,
+      })),
+    };
+    console.log(editEntry);
+    debugger;
+    const res = await updateResourse(editEntry, "vouchers", id);
+    dispatch(setEditEntry(res));
+  };
+};
 
-    dispatch(addNewAccountType(res));
-  }; */
+export const deleteEntry = (id) => {
+  return async (dispatch) => {
+    await deleteResourse("vouchers", id);
+    dispatch(setDeleteEntry(id));
+  };
 };
