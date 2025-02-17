@@ -1,18 +1,25 @@
-import { Calculate, Home, NoteAddSharp, AccountTree, ManageAccounts } from "@mui/icons-material";
+import {
+  Calculate,
+  Home,
+  NoteAddSharp,
+  AccountTree,
+  ManageAccounts,
+  Person,
+} from "@mui/icons-material";
 
 export const menuItems = [
   {
-    icon: <Home color="primary"/>,
+    icon: <Home color="primary" />,
     path: "/",
     description: "Home",
   },
   {
-    icon: <Calculate color="primary"/>,
+    icon: <Calculate color="primary" />,
     path: "/account",
     description: "Contabilidad",
     subitems: [
       {
-        icon: <ManageAccounts color="secondary"/>,
+        icon: <ManageAccounts color="secondary" />,
         path: "/account",
         description: "Cuenta",
       },
@@ -29,12 +36,12 @@ export const menuItems = [
     ],
   },
   {
-    icon: <Calculate color="primary"/>,
+    icon: <Person color="primary" />,
     path: "/nomina",
     description: "Nómina",
     subitems: [
       {
-        icon: <ManageAccounts color="secondary"/>,
+        icon: <ManageAccounts color="secondary" />,
         path: "/reason",
         description: "Motivo nómina",
       },

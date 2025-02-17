@@ -6,6 +6,7 @@ import {
   VoucherPage,
   ReasonNomination,
   WorkerNomination,
+  PayroallNomination,
 } from "../pages";
 
 export const AppRoutes = () => {
@@ -18,6 +19,7 @@ export const AppRoutes = () => {
 
       <Route path="reason" element={<ReasonNomination />} />
       <Route path="workers" element={<WorkerNomination />} />
+      <Route path="payroll" element={<PayroallNomination />} />
       <Route path="/*" element={<Navigate to="/" />} />
     </Routes>
   );
