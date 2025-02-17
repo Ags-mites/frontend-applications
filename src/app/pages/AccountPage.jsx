@@ -1,9 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+
 import { AppLayout } from "../layout/AppLayout";
 import { FormView, TableInfoView } from "../views";
-import { useState } from "react";
-import { format } from "date-fns";
 import { deleteAccount, editAccount, newAccount } from "../../store";
+
+import { format } from "date-fns";
 
 const AccountFormConfig = {
   initialValues: {

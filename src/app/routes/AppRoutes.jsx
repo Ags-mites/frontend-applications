@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { AccountPage,AppPage, AccountTypePage, VoucherPage } from "../pages";
+import { AccountPage,AppPage, AccountTypePage, VoucherPage, ReasonNomination } from "../pages";
 
 export const AppRoutes = () => {
   return (
@@ -8,6 +8,8 @@ export const AppRoutes = () => {
       <Route path="account" element={<AccountPage />} />
       <Route path="account_type" element={<AccountTypePage />} />
       <Route path="voucher" element={<VoucherPage />} />
+
+      <Route path="reason" element={<ReasonNomination />} />
       <Route path="/*" element={<Navigate to="/" />} />
     </Routes>
   );

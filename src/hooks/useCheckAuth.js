@@ -5,6 +5,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { FirebaseAuth } from '../firebase/config';
 import { login, logout } from '../store/auth';
 import { startLoadingData } from '../store/account/thunks';
+import { startLoadingDataReason } from '../store/reason/thunks';
 
 
 
@@ -23,6 +24,10 @@ export const useCheckAuth = () => {
             const resources = ["accounts", "accountTypes","vouchers"];
             resources.forEach((resource) => {
               dispatch(startLoadingData(resource));
+            });
+            const resourcesNomination = ["workers", "payroalls","reasons"];
+            resourcesNomination.forEach((resourceNomination) => {
+              dispatch(startLoadingDataReason(resourceNomination));
             });
         })
         

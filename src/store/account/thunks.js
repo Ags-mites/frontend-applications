@@ -163,8 +163,6 @@ export const editEntry = ({
         creditAmount: credit,
       })),
     };
-    console.log(editEntry);
-    debugger;
     const res = await updateResourse(editEntry, "vouchers", id);
     dispatch(setEditEntry(res));
   };

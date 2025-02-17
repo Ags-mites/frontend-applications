@@ -13,7 +13,7 @@ import Collapse from "@mui/material/Collapse";
 import {ExpandLess, ExpandMore} from "@mui/icons-material";
 
 export const SideBarItem = ({ icon, description, subitems }) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const handleClick = () => {
     setOpen(!open);
