@@ -3,3 +3,4 @@ export { AccountTypePage } from "./AccountTypePage";
 export { AppPage } from "./AppPage";
 export { ReasonNomination } from "./ReasonNomination";
 export { VoucherPage } from "./VoucherPage";
+export { WorkerNomination } from "./WorkerNomination";

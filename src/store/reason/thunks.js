@@ -4,7 +4,15 @@ import {
   getAllResourse,
   updateResourse,
 } from "../../use-cases";
-import { addNewReason, setData, setDeleteReason, setEditReason } from "./";
+import {
+  addNewReason,
+  addNewWorker,
+  setData,
+  setDeleteReason,
+  setDeleteWorker,
+  setEditReason,
+  setEditWorker,
+} from "./";
 
 export const startLoadingDataReason = (resource) => {
   return async (dispatch, getState) => {
@@ -47,5 +55,42 @@ export const deleteReason = (id) => {
   return async (dispatch) => {
     await deleteResourse("reasons", id);
     dispatch(setDeleteReason(id));
+  };
+};
+
+export const newWorker = ({ idCard, name, dateAdmission, salary }) => {
+  return async (dispatch) => {
+    const newWorker = {
+      idCard,
+      name,
+      dateAdmission,
+      salary,
+    };
+
+    const res = await createResourse(newWorker, "workers");
+
+    dispatch(addNewWorker(res));
+  };
+};
+
+export const editWorker = ({ id, idCard, name, dateAdmission, salary }) => {
+  return async (dispatch) => {
+    const editWorker = {
+      id,
+      idCard,
+      name,
+      dateAdmission,
+      salary,
+    };
+    const res = await updateResourse(editWorker, "workers", id);
+
+    dispatch(setEditWorker(res));
+  };
+};
+
+export const deleteWorker = (id) => {
+  return async (dispatch) => {
+    await deleteResourse("workers", id);
+    dispatch(setDeleteWorker(id));
   };
 };

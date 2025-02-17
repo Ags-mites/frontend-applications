@@ -39,6 +39,24 @@ export const reasonSlice = createSlice({
         (reason) => reason.id !== action.payload
       );
     },
+    addNewWorker: (state, action) => {
+      state.workers.push(action.payload);
+      state.isSaving = false;
+      console.log(action.payload)
+    },
+    setEditWorker: (state, action) => {
+      state.workers = state.workers.map((worker) => {
+        if (worker.id === action.payload.id) {
+          return action.payload;
+        }
+        return worker;
+      });
+    },
+    setDeleteWorker: (state, action) => {
+      state.workers = state.workers.filter(
+        (worker) => worker.id !== action.payload
+      );
+    },
   },
 });
 
@@ -47,5 +65,8 @@ export const {
   setCreateItem,
   addNewReason,
   setEditReason,
-  setDeleteReason
+  setDeleteReason,
+  addNewWorker,
+  setEditWorker,
+  setDeleteWorker
 } = reasonSlice.actions;
