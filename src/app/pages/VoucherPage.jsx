@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppLayout } from "../layout/AppLayout";
 import { FormView, FormViewTable, TableInfoView } from "../views";
 import { useMemo, useState } from "react";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import { deleteEntry, editEntry, newEntry } from "../../store";
 
 const VoucherFormConfig = {
@@ -84,18 +84,21 @@ export const VoucherPage = () => {
   };
 
   const onClickCreateNewVoucher = () => {
-    setFormConfig({ ...VoucherFormConfig });
     setIsFormView(true);
     setEditingVoucher(null);
   };
 
   const onEditVoucher = (voucherToEdit) => {
+
+    const parsedDate = parse(voucherToEdit.entryDate, "dd/MM/yyyy", new Date());
+    const formattedDate = format(parsedDate, "yyyy-MM-dd");
+    
     setFormConfig({
       ...formConfig,
       initialValues: {
         id: voucherToEdit.id || "",
         numeration: voucherToEdit.numeration || "",
-        entryDate: voucherToEdit.entryDate || "",
+        entryDate: formattedDate || "",
         notes: voucherToEdit.notes || "",
         voucherType: voucherToEdit.entryType || "",
       },
@@ -117,7 +120,7 @@ export const VoucherPage = () => {
 
   const formattedVouchers = vouchers.map((item) => ({
     ...item,
-    entryDate: format(new Date(item.entryDate), "dd/MM/yyyy HH:mm:ss"),
+    entryDate: format(new Date(item.entryDate), "dd/MM/yyyy"),
     createdAt: format(new Date(item.createdAt), "dd/MM/yyyy HH:mm:ss"),
     updatedAt: format(new Date(item.updatedAt), "dd/MM/yyyy HH:mm:ss"),
   }));
@@ -140,6 +143,7 @@ export const VoucherPage = () => {
           tableConfig={tableConfigWithAccount}
           onSubmitCallback={handleSubmit}
           onCancel={() => setIsFormView(false)}
+          initialEntries={editingVoucher?.entryDetails || []}
         />
       )}
     </AppLayout>

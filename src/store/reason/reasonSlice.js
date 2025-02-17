@@ -8,7 +8,7 @@ export const reasonSlice = createSlice({
     activeTable: true,
     reasons: [],
     workers: [],
-    payroall: [],
+    payrolls: [],
   },
   reducers: {
     savingNewItem: (state) => {
@@ -24,7 +24,6 @@ export const reasonSlice = createSlice({
     addNewReason: (state, action) => {
       state.reasons.push(action.payload);
       state.isSaving = false;
-      console.log(action.payload)
     },
     setEditReason: (state, action) => {
       state.reasons = state.reasons.map((reason) => {
@@ -42,7 +41,6 @@ export const reasonSlice = createSlice({
     addNewWorker: (state, action) => {
       state.workers.push(action.payload);
       state.isSaving = false;
-      console.log(action.payload)
     },
     setEditWorker: (state, action) => {
       state.workers = state.workers.map((worker) => {
@@ -57,6 +55,23 @@ export const reasonSlice = createSlice({
         (worker) => worker.id !== action.payload
       );
     },
+    addNewPayroll: (state, action) => {
+      state.payrolls.push(action.payload);
+      state.isSaving = false;
+    },
+    setEditPayroll: (state, action) => {
+      state.payrolls = state.payrolls.map((worker) => {
+        if (worker.id === action.payload.id) {
+          return action.payload;
+        }
+        return worker;
+      });
+    },
+    setDeletePayroll: (state, action) => {
+      state.payrolls = state.payrolls.filter(
+        (worker) => worker.id !== action.payload
+      );
+    },
   },
 });
 
@@ -68,5 +83,8 @@ export const {
   setDeleteReason,
   addNewWorker,
   setEditWorker,
-  setDeleteWorker
+  setDeleteWorker,
+  addNewPayroll,
+  setEditPayroll,
+  setDeletePayroll,
 } = reasonSlice.actions;

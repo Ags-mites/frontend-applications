@@ -21,6 +21,7 @@ export const FormViewTable = ({
   onSubmitCallback,
   onCancel,
   isEditing,
+  entriesDetails = [],
 }) => {
   const [entries, setEntries] = useState([]);
 

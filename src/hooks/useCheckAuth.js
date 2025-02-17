@@ -25,7 +25,7 @@ export const useCheckAuth = () => {
             resources.forEach((resource) => {
               dispatch(startLoadingData(resource));
             });
-            const resourcesNomination = ["workers", "payroalls","reasons"];
+            const resourcesNomination = ["workers", "payrolls","reasons"];
             resourcesNomination.forEach((resourceNomination) => {
               dispatch(startLoadingDataReason(resourceNomination));
             });

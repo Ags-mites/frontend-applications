@@ -5,11 +5,14 @@ import {
   updateResourse,
 } from "../../use-cases";
 import {
+  addNewPayroll,
   addNewReason,
   addNewWorker,
   setData,
+  setDeletePayroll,
   setDeleteReason,
   setDeleteWorker,
+  setEditPayroll,
   setEditReason,
   setEditWorker,
 } from "./";
@@ -92,5 +95,63 @@ export const deleteWorker = (id) => {
   return async (dispatch) => {
     await deleteResourse("workers", id);
     dispatch(setDeleteWorker(id));
+  };
+};
+
+export const newPayroll = ({
+  datePayroll,
+  description,
+  number,
+  worker,
+  entries,
+}) => {
+  return async (dispatch) => {
+    const newPayroll = {
+      number,
+      workerid: worker,
+      description,
+      datePayroll,
+      payrollDetails: entries.map(({ reason, price }) => ({
+        reasonId: reason,
+        price,
+      })),
+    };
+
+    const res = await createResourse(newPayroll, "payrolls");
+
+    dispatch(addNewPayroll(res));
+  };
+};
+
+export const editPayroll = ({
+  id,
+  datePayroll,
+  description,
+  number,
+  worker,
+  entries,
+}) => {
+  return async (dispatch) => {
+    const editPayroll = {
+      id,
+      number,
+      workerid: worker,
+      description,
+      datePayroll,
+      payrollDetails: entries.map(({ reason, price }) => ({
+        reasonId: reason,
+        price,
+      })),
+    };
+    const res = await updateResourse(editPayroll, "payrolls", id);
+
+    dispatch(setEditPayroll(res));
+  };
+};
+
+export const deletePayroll = (id) => {
+  return async (dispatch) => {
+    await deleteResourse("payrolls", id);
+    dispatch(setDeletePayroll(id));
   };
 };
