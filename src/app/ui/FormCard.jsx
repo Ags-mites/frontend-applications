@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Grid,
   TextField,
@@ -13,12 +13,21 @@ import {
 import { useForm } from "../../hooks";
 import { OutlinedCard } from "./OutlinedCard";
 
-export const FormCard = ({ config, onSubmitCallback, onCancel, isEditing }) => {
-  const { initialValues, fields, formValidations } = config;
-  const { formState, onInputChange, onResetForm, isFormValid } = useForm(initialValues, formValidations);
+export const FormCard = ({
+  config,
+  onSubmitCallback,
+  onCancel,
+  isEditing,
+  formValidations,
+}) => {
+  const { initialValues, fields } = config;
+  const { formState, onInputChange, onResetForm, isFormValid, ...validations } =
+    useForm(initialValues, formValidations);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const onSubmit = (event) => {
     event.preventDefault();
+    setFormSubmitted(true);
     if (!isFormValid) return;
     if (onSubmitCallback) {
       onSubmitCallback(formState, isEditing);
@@ -38,54 +47,74 @@ export const FormCard = ({ config, onSubmitCallback, onCancel, isEditing }) => {
           className="animate__animated animate__fadeIn animate__faster"
         >
           <Grid container spacing={2}>
-            {fields.map((field) => (
-              <Grid item xs={12} sm={6} key={field.name}>
-                {field.type === "text" && (
-                  <TextField
-                    label={field.label}
-                    name={field.name}
-                    value={formState[field.name] || ""}
-                    onChange={onInputChange}
-                    InputProps={{
-                      readOnly: field.readOnly ? true : false,
-                    }}
-                    fullWidth
-                    size="small"
-                  />
-                )}
-                {field.type === "date" && (
-                  <TextField
-                    label={field.label}
-                    name={field.name}
-                    type="date"
-                    value={formState[field.name] || ""}
-                    onChange={onInputChange}
-                    InputLabelProps={{ shrink: true }}
-                    fullWidth
-                    size="small"
-                  />
-                )}
-                {field.type === "select" && (
-                  <FormControl fullWidth size="small">
-                    <InputLabel id={`${field.name}-label`}>
-                      {field.label}
-                    </InputLabel>
-                    <Select
-                      labelId={`${field.name}-label`}
+            {fields.map((field) => {
+              const fieldError = validations[`${field.name}Valid`] || null;
+
+              return (
+                <Grid item xs={12} sm={6} key={field.name}>
+                  {field.type === "text" && (
+                    <TextField
+                      label={field.label}
                       name={field.name}
                       value={formState[field.name] || ""}
                       onChange={onInputChange}
+                      error={!!fieldError && formSubmitted}
+                      helperText={fieldError}
+                      InputProps={{
+                        readOnly: field.readOnly ? true : false,
+                      }}
+                      fullWidth
+                      size="small"
+                    />
+                  )}
+                  {field.type === "date" && (
+                    <TextField
+                      label={field.label}
+                      name={field.name}
+                      type="date"
+                      value={formState[field.name] || ""}
+                      onChange={onInputChange}
+                      InputLabelProps={{ shrink: true }}
+                      error={!!fieldError && formSubmitted}
+                      helperText={fieldError}
+                      fullWidth
+                      size="small"
+                    />
+                  )}
+                  {field.type === "select" && (
+                    <FormControl
+                      fullWidth
+                      size="small"
+                      error={!!fieldError && formSubmitted}
                     >
-                      {field.options.map((option) => (
-                        <MenuItem key={option.id} value={option.id}>
-                          {option.label}
+                      <InputLabel id={`${field.name}-label`}>
+                        {field.label}
+                      </InputLabel>
+                      <Select
+                        labelId={`${field.name}-label`}
+                        name={field.name}
+                        value={formState[field.name] || ""}
+                        onChange={onInputChange}
+                      >
+                        <MenuItem value="" disabled>
+                          Selecciona una opción
                         </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                )}
-              </Grid>
-            ))}
+                        {field.options.map((option) => (
+                          <MenuItem key={option.id} value={option.id}>
+                            {option.label}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                      {fieldError && (
+                        <Typography variant="caption" color="error">
+                          {fieldError}
+                        </Typography>
+                      )}
+                    </FormControl>
+                  )}
+                </Grid>
+              );
+            })}
           </Grid>
           <Grid
             container
