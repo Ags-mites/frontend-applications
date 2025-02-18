@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppLayout } from "../layout/AppLayout";
 import { FormView, FormViewTable, TableInfoView } from "../views";
 import { useMemo, useState } from "react";
-import { format, parse } from "date-fns";
+import { format } from "date-fns";
 import { deleteEntry, editEntry, newEntry } from "../../store";
 
 const VoucherFormConfig = {
@@ -54,7 +54,6 @@ export const VoucherPage = () => {
   const dispatch = useDispatch();
   const { vouchers, accounts } = useSelector((state) => state.app);
 
-  
   const [isFormView, setIsFormView] = useState(false);
   const [editingVoucher, setEditingVoucher] = useState(null);
   const [formConfig, setFormConfig] = useState({ ...VoucherFormConfig });
@@ -84,21 +83,29 @@ export const VoucherPage = () => {
   };
 
   const onClickCreateNewVoucher = () => {
+    const filteredFields = formConfig.fields.filter(
+      (field) => field.name !== "id"
+    );
+    setFormConfig({
+      fields: filteredFields,
+      initialValues: {
+        numeration: "",
+        entryDate: "",
+        notes: "",
+        voucherType: "",
+      },
+    });
     setIsFormView(true);
     setEditingVoucher(null);
   };
 
   const onEditVoucher = (voucherToEdit) => {
-
-    const parsedDate = parse(voucherToEdit.entryDate, "dd/MM/yyyy", new Date());
-    const formattedDate = format(parsedDate, "yyyy-MM-dd");
-    
     setFormConfig({
       ...formConfig,
       initialValues: {
         id: voucherToEdit.id || "",
         numeration: voucherToEdit.numeration || "",
-        entryDate: formattedDate || "",
+        entryDate: voucherToEdit.entryDate || "",
         notes: voucherToEdit.notes || "",
         voucherType: voucherToEdit.entryType || "",
       },
@@ -143,7 +150,6 @@ export const VoucherPage = () => {
           tableConfig={tableConfigWithAccount}
           onSubmitCallback={handleSubmit}
           onCancel={() => setIsFormView(false)}
-          initialEntries={editingVoucher?.entryDetails || []}
         />
       )}
     </AppLayout>

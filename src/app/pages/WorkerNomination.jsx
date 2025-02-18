@@ -50,7 +50,18 @@ export const WorkerNomination = () => {
   };
 
   const onClickCreateNewWorker = () => {
-    setFormConfig(WorkerFormConfig);
+    const filteredFields = formConfig.fields.filter(
+      (field) => field.name !== "id"
+    );
+    setFormConfig({
+      fields: filteredFields,
+      initialValues: {
+        idCard: "",
+        name: "",
+        dateAdmission: "",
+        salary: "",
+      },
+    });
     setIsFormView(true);
     setEditingWorker(null);
   };
@@ -80,7 +91,6 @@ export const WorkerNomination = () => {
   const onDeleteWorker = (workerToDelete) => {
     dispatch(deleteWorker(workerToDelete.id));
   };
-
 
   const formattedWorkers = workers.map((item) => ({
     ...item,

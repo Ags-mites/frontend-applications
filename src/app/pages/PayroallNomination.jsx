@@ -3,7 +3,12 @@ import { AppLayout } from "../layout/AppLayout";
 import { FormViewTable, TableInfoView } from "../views";
 import { useMemo, useState } from "react";
 import { format, parse } from "date-fns";
-import { deletePayroll, editPayroll, newPayroll, sentPayrollToAccount } from "../../store";
+import {
+  deletePayroll,
+  editPayroll,
+  newPayroll,
+  sentPayrollToAccount,
+} from "../../store";
 
 const PayrollFormConfig = {
   initialValues: {
@@ -96,12 +101,24 @@ export const PayroallNomination = () => {
   };
 
   const onClickCreateNewPayroll = () => {
+    const filteredFields = formConfig.fields.filter(
+      (field) => field.name !== "id"
+    );
+    setFormConfig({
+      fields: filteredFields,
+      initialValues: {
+        number: "",
+        worker: "",
+        description: "",
+        datePayroll: "",
+      },
+    });
     setIsFormView(true);
     setEditingPayroll(null);
   };
 
   const onSendAccount = (sendToAccount) => {
-    dispatch(sentPayrollToAccount(sendToAccount));
+    dispatch(setFormConfig(sendToAccount));
   };
 
   const onEditPayroll = (payrollToEdit) => {
@@ -111,8 +128,6 @@ export const PayroallNomination = () => {
       new Date()
     );
     const formattedDate = format(parsedDate, "yyyy-MM-dd");
-
-    console.log(parsedDate);
     setFormConfig({
       ...formConfig,
       initialValues: {
