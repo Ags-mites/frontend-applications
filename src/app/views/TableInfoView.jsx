@@ -2,7 +2,17 @@ import { Box, Button, Grid, Typography } from "@mui/material";
 import { OutlinedCard } from "../ui";
 import { EnhancedTable } from "../components";
 
-export const TableInfoView = ({ data, headers, onCreateItem, onEditItem, onDeleteItem, title, titleButton }) => {
+export const TableInfoView = ({
+  data,
+  headers,
+  onCreateItem,
+  onEditItem,
+  onDeleteItem,
+  onSendItem,
+  title,
+  titleButton,
+}) => {
+  
   return (
     <>
       <Grid container spacing={2} alignItems="center">
@@ -25,6 +35,7 @@ export const TableInfoView = ({ data, headers, onCreateItem, onEditItem, onDelet
                 onCreateItem={onCreateItem}
                 onEditItem={onEditItem}
                 onDeleteItem={onDeleteItem}
+                onSendItem={onSendItem}
               />
             </Box>
           </OutlinedCard>

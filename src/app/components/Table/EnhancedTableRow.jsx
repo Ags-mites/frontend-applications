@@ -1,13 +1,16 @@
-import {
-  TableCell,
-  TableRow,
-  IconButton,
-  Tooltip,
-} from "@mui/material";
+import { TableCell, TableRow, IconButton, Tooltip } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { Send } from "@mui/icons-material";
 
-export const EnhancedTableRow = ({ row, headers, onEdit, onDelete }) => {
+export const EnhancedTableRow = ({
+  row,
+  headers,
+  onEdit,
+  onDelete,
+  onSendIntegration,
+}) => {
+  
   return (
     <TableRow hover>
       {Object.keys(headers).map((key) => (
@@ -24,6 +27,13 @@ export const EnhancedTableRow = ({ row, headers, onEdit, onDelete }) => {
             <DeleteIcon />
           </IconButton>
         </Tooltip>
+        {onSendIntegration && (
+          <Tooltip title="Integración">
+            <IconButton onClick={() => onSendIntegration(row)}>
+              <Send />
+            </IconButton>
+          </Tooltip>
+        )}
       </TableCell>
     </TableRow>
   );

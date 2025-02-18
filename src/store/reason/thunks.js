@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import {
   createResourse,
   deleteResourse,
@@ -16,6 +17,7 @@ import {
   setEditReason,
   setEditWorker,
 } from "./";
+import { addNewEntry } from "../account";
 
 export const startLoadingDataReason = (resource) => {
   return async (dispatch, getState) => {
@@ -153,5 +155,32 @@ export const deletePayroll = (id) => {
   return async (dispatch) => {
     await deleteResourse("payrolls", id);
     dispatch(setDeletePayroll(id));
+  };
+};
+
+export const sentPayrollToAccount = ({
+  datePayroll,
+  description,
+  number,
+  entries,
+}) => {
+  const convertDateFormat = (dateStr) => {
+    const [day, month, year] = dateStr.split('/');
+    return `${year}-${month}-${day}`; 
+  };
+  const parsedDate = convertDateFormat(datePayroll);
+  const formattedDate = format(parsedDate, "yyyy-MM-dd");
+  
+  
+  return async (dispatch) => {
+    const newEntry = {
+      entryDate: formattedDate,
+      numeration: number,
+      notes: description,
+      entryType: "",
+      entryDetails: [],
+    };
+    const res = await createResourse(newEntry, "vouchers");
+    dispatch(addNewEntry(res));
   };
 };

@@ -14,11 +14,12 @@ import { useForm } from "../../hooks";
 import { OutlinedCard } from "./OutlinedCard";
 
 export const FormCard = ({ config, onSubmitCallback, onCancel, isEditing }) => {
-  const { initialValues, fields } = config;
-  const { formState, onInputChange, onResetForm } = useForm(initialValues);
+  const { initialValues, fields, formValidations } = config;
+  const { formState, onInputChange, onResetForm, isFormValid } = useForm(initialValues, formValidations);
 
   const onSubmit = (event) => {
     event.preventDefault();
+    if (!isFormValid) return;
     if (onSubmitCallback) {
       onSubmitCallback(formState, isEditing);
     }

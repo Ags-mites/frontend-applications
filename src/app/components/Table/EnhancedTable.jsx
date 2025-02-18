@@ -16,7 +16,7 @@ import { EnhancedTableHead } from "./EnhancedTableHead";
 import { EnhancedTableToolbar } from "./EnhancedTableToolbar";
 import { EnhancedTableRow } from "./EnhancedTableRow";
 
-export const EnhancedTable = ({ headers, data, onEditItem, onDeleteItem }) => {
+export const EnhancedTable = ({ headers, data, onEditItem, onDeleteItem, onSendItem }) => {
   const [rows, setRows] = useState(data);
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("id");
@@ -24,7 +24,7 @@ export const EnhancedTable = ({ headers, data, onEditItem, onDeleteItem }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [dense, setDense] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-
+  
   useEffect(() => {
     setRows(data);
   }, [data]);
@@ -66,6 +66,11 @@ export const EnhancedTable = ({ headers, data, onEditItem, onDeleteItem }) => {
     onDeleteItem(row);
   };
 
+  const handleIntegration = (row) => {
+    if (onSendItem) {
+      onSendItem(row);
+    }
+  };
   const visibleRows = filteredRows
     .slice()
     .sort(getComparator(order, orderBy))
@@ -91,6 +96,7 @@ export const EnhancedTable = ({ headers, data, onEditItem, onDeleteItem }) => {
                   headers={headers}
                   onEdit={handleEdit}
                   onDelete={handleDelete}
+                  onSendIntegration={onSendItem ? handleIntegration : undefined}
                 />
               ))}
             </TableBody>

@@ -81,6 +81,7 @@ export const WorkerNomination = () => {
     dispatch(deleteWorker(workerToDelete.id));
   };
 
+
   const formattedWorkers = workers.map((item) => ({
     ...item,
     createdAt: format(new Date(item.createdAt), "dd/MM/yyyy HH:mm:ss"),

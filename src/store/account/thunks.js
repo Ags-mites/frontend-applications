@@ -136,6 +136,7 @@ export const newEntry = ({
         creditAmount: credit,
       })),
     };
+    console.log(entryDate)
     const res = await createResourse(newEntry, "vouchers");
     dispatch(addNewEntry(res));
   };

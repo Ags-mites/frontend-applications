@@ -3,7 +3,7 @@ import { AppLayout } from "../layout/AppLayout";
 import { FormViewTable, TableInfoView } from "../views";
 import { useMemo, useState } from "react";
 import { format, parse } from "date-fns";
-import { deletePayroll, editPayroll, newPayroll } from "../../store";
+import { deletePayroll, editPayroll, newPayroll, sentPayrollToAccount } from "../../store";
 
 const PayrollFormConfig = {
   initialValues: {
@@ -100,11 +100,19 @@ export const PayroallNomination = () => {
     setEditingPayroll(null);
   };
 
+  const onSendAccount = (sendToAccount) => {
+    dispatch(sentPayrollToAccount(sendToAccount));
+  };
+
   const onEditPayroll = (payrollToEdit) => {
-    const parsedDate = parse(payrollToEdit.datePayroll, "dd/MM/yyyy", new Date());
+    const parsedDate = parse(
+      payrollToEdit.datePayroll,
+      "dd/MM/yyyy",
+      new Date()
+    );
     const formattedDate = format(parsedDate, "yyyy-MM-dd");
-    
-    console.log(parsedDate)
+
+    console.log(parsedDate);
     setFormConfig({
       ...formConfig,
       initialValues: {
@@ -126,7 +134,6 @@ export const PayroallNomination = () => {
     setIsFormView(true);
     setEditingPayroll(payrollToEdit);
   };
-  
 
   const onDeletePayroll = (payrollToDelete) => {
     dispatch(deletePayroll(payrollToDelete.id));
@@ -147,6 +154,7 @@ export const PayroallNomination = () => {
           onCreateItem={onClickCreateNewPayroll}
           onEditItem={onEditPayroll}
           onDeleteItem={onDeletePayroll}
+          onSendItem={onSendAccount}
           titleButton="Crear Nómina"
           title="Nóminas"
         />
