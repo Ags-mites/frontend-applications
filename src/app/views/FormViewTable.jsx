@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FormCard, OutlinedCard } from "../ui";
 import {
   Table,
@@ -21,8 +21,26 @@ export const FormViewTable = ({
   onSubmitCallback,
   onCancel,
   isEditing,
+  formValidations,
 }) => {
   const [entries, setEntries] = useState([]);
+console.log(config.initialValues.details);
+  useEffect(() => {
+    if (Array.isArray(config.initialValues.details)) {
+      setEntries(
+        config.initialValues.details.map((detail) => {
+          const formDetails = {};
+          
+          Object.keys(detail).forEach(key => {
+            formDetails[key] = detail[key] || (key === "debitAmount" || key === "creditAmount" ? 0 : "");
+          });
+  
+          return formDetails;
+        })
+      );
+    }
+  }, [config.initialValues.details]);
+  
 
   const handleSubmit = (formValues, isEditing) => {
     if (onSubmitCallback) {
@@ -59,6 +77,7 @@ export const FormViewTable = ({
             onSubmitCallback={handleSubmit}
             onCancel={onCancel}
             isEditing={isEditing}
+            formValidations={formValidations}
           />
         </Grid>
         <Grid item xs={12} sx={{ mt: 2 }}>
@@ -83,7 +102,7 @@ export const FormViewTable = ({
                             <TextField
                               size="small"
                               type={col.type}
-                              value={row[col.name]}
+                              value={row[col.name] || ""}
                               onChange={(e) =>
                                 handleChange(rowIndex, col.name, e.target.value)
                               }

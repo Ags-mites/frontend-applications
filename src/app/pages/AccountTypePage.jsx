@@ -41,6 +41,14 @@ const headers = {
   createdAt: "Fecha de Creación",
 };
 
+const formValidations = {
+  code: [(value) => value.trim() !== "", "El código es obligatorio"],
+  name: [(value) => value.trim() !== "", "El nombre es obligatorio"],
+  description: [(value) => value.trim() !== "", "La descripción es obligatoria"],
+  status: [(value) => value !== "", "El estado es obligatorio"],
+};
+
+
 export const AccountTypePage = () => {
   const dispatch = useDispatch();
   const { accountTypes } = useSelector((state) => state.app);
@@ -128,6 +136,7 @@ export const AccountTypePage = () => {
         <FormView
           config={formConfig}
           isEditing={!!editingAccountType}
+          formValidations={formValidations}
           onSubmitCallback={handleSubmit}
           onCancel={() => setIsFormView(false)}
         />

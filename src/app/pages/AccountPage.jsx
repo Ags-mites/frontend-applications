@@ -150,6 +150,7 @@ export const AccountPage = () => {
           titleButton="Crear Cuenta"
           title="Cuentas"
         />
+        
       ) : (
         <FormView
           config={formConfig}

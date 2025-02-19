@@ -30,7 +30,7 @@ export const useCheckAuth = () => {
             resourcesNomination.forEach((resourceNomination) => {
               dispatch(startLoadingDataReason(resourceNomination));
             });
-            const resourcesInvoices = ["Cities", "Clients","Invoice"];
+            const resourcesInvoices = ["Cities", "Clients"];
             resourcesInvoices.forEach((resourceNomination) => {
               dispatch(startLoadingDataInvoice(resourceNomination));
             });

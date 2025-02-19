@@ -59,7 +59,7 @@ export const menuItems = [
   },
   {
     icon: <Person color="primary" />,
-    path: "/dashboard/nomina",
+    path: "/dashboard/invoice",
     description: "Facturación",
     subitems: [
       {

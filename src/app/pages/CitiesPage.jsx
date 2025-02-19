@@ -75,7 +75,7 @@ export const CitiesPage = () => {
   };
 
   return (
-    <>
+    <AppLayout>
       {!isFormView ? (
         <TableInfoView
           data={Cities}
@@ -95,6 +95,6 @@ export const CitiesPage = () => {
           onCancel={() => setIsFormView(false)}
         />
       )}
-    </>
+    </AppLayout>
   );
 };

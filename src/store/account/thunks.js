@@ -129,11 +129,11 @@ export const newEntry = ({
       numeration,
       notes,
       entryType: voucherType,
-      entryDetails: entries.map(({ account, credit, debit, description }) => ({
-        accountId: account,
+      entryDetails: entries.map(({ accountId, creditAmount, debitAmount, description }) => ({
+        accountId: accountId,
         description,
-        debitAmount: debit,
-        creditAmount: credit,
+        debitAmount: debitAmount,
+        creditAmount: creditAmount,
       })),
     };
     console.log(entryDate)
@@ -151,23 +151,26 @@ export const editEntry = ({
   numeration,
 }) => {
   return async (dispatch) => {
+
     const editEntry = {
       id,
       entryDate,
       numeration,
       notes,
       entryType: voucherType,
-      entryDetails: entries.map(({ account, credit, debit, description }) => ({
-        accountId: account,
+      entryDetails: entries.map(({ accountId, creditAmount, debitAmount, description }) => ({
+        accountId: accountId,
         description,
-        debitAmount: debit,
-        creditAmount: credit,
+        debitAmount: debitAmount,
+        creditAmount: creditAmount,
       })),
     };
+
     const res = await updateResourse(editEntry, "vouchers", id);
     dispatch(setEditEntry(res));
   };
 };
+
 
 export const deleteEntry = (id) => {
   return async (dispatch) => {

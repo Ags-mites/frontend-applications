@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppLayout } from "../layout/AppLayout";
 import { FormView, FormViewTable, TableInfoView } from "../views";
 import { useMemo, useState } from "react";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import { deleteEntry, editEntry, newEntry } from "../../store";
 
 const VoucherFormConfig = {
@@ -11,6 +11,7 @@ const VoucherFormConfig = {
     entryDate: "",
     notes: "",
     voucherType: "",
+    details: [],
   },
   fields: [
     { name: "numeration", label: "Numeración", type: "text" },
@@ -33,7 +34,7 @@ const tableConfig = {
   title: "Detalles del Comprobante",
   columns: [
     {
-      name: "account",
+      name: "accountId",
       label: "Cuenta",
       type: "select",
       defaultValue: "",
@@ -45,8 +46,8 @@ const tableConfig = {
       type: "text",
       defaultValue: "",
     },
-    { name: "debit", label: "Débito", type: "number", defaultValue: 0 },
-    { name: "credit", label: "Crédito", type: "number", defaultValue: 0 },
+    { name: "debitAmount", label: "Débito", type: "number", defaultValue: 0 },
+    { name: "creditAmount", label: "Crédito", type: "number", defaultValue: 0 },
   ],
 };
 
@@ -62,15 +63,18 @@ export const VoucherPage = () => {
     label: type.name,
     id: type.id,
   }));
-  
-  const tableConfigWithAccount = useMemo(() => ({
-    ...tableConfig,
-    columns: tableConfig.columns.map((column) =>
-      column.name === "account"
-        ? { ...column, options: accountOptions }
-        : column
-    ),
-  }), [accounts]);
+
+  const tableConfigWithAccount = useMemo(
+    () => ({
+      ...tableConfig,
+      columns: tableConfig.columns.map((column) =>
+        column.name === "accountId"
+          ? { ...column, options: accountOptions }
+          : column
+      ),
+    }),
+    [accounts]
+  );
 
   const handleSubmit = (formValues) => {
     if (editingVoucher) {
@@ -100,14 +104,18 @@ export const VoucherPage = () => {
   };
 
   const onEditVoucher = (voucherToEdit) => {
+    const parsedDate = parse(voucherToEdit.entryDate, "dd/MM/yyyy", new Date());
+    const formattedDate = format(parsedDate, "yyyy-MM-dd");
     setFormConfig({
       ...formConfig,
       initialValues: {
         id: voucherToEdit.id || "",
         numeration: voucherToEdit.numeration || "",
         entryDate: voucherToEdit.entryDate || "",
+        entryDate: formattedDate || "",
         notes: voucherToEdit.notes || "",
         voucherType: voucherToEdit.entryType || "",
+        details: voucherToEdit.entryDetails || [],
       },
       fields: formConfig.fields.some((field) => field.name === "id")
         ? formConfig.fields

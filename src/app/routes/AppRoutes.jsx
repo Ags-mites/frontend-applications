@@ -8,14 +8,11 @@ import {
   WorkerNomination,
   PayroallNomination,
 } from "../pages";
-import { AppLayout } from "../layout/AppLayout";
 import { CitiesPage } from "../pages/CitiesPage";
 
 export const AppRoutes = () => {
   return (
     <>
-    <AppLayout > 
-
       <Routes>
         <Route path="/" element={<AppPage />} />
 
@@ -29,7 +26,7 @@ export const AppRoutes = () => {
 
         <Route path="/*" element={<Navigate to="/" />} />
       </Routes>
-      </ AppLayout>
+      
     </>
   );
 };

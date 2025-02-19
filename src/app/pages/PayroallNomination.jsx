@@ -16,6 +16,7 @@ const PayrollFormConfig = {
     worker: "",
     description: "",
     datePayroll: "",
+    payrollDetails: [],
   },
   fields: [
     { name: "number", label: "Numeración", type: "text" },
@@ -137,6 +138,7 @@ export const PayroallNomination = () => {
         workerName: payrollToEdit.workerName || "",
         datePayroll: formattedDate || "",
         description: payrollToEdit.description || "",
+        details: payrollToEdit.payrollDetails || [],
       },
       fields: formConfig.fields.some((field) => field.name === "id")
         ? formConfig.fields
