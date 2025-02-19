@@ -253,8 +253,9 @@ export const sentPayrollToAccount = ({
   datePayroll,
   description,
   number,
-  entries,
+  payrollDetails,
 }) => {
+  
   const convertDateFormat = (dateStr) => {
     const [day, month, year] = dateStr.split('/');
     return `${year}-${month}-${day}`; 
@@ -264,17 +265,35 @@ export const sentPayrollToAccount = ({
   
   
   return async (dispatch) => {
-    const newEntry = {
-      entryDate: formattedDate,
-      numeration: number,
-      notes: description,
-      entryType: "",
-      entryDetails: [
-        
-      ],
-    };
-    const res = await createResourse(newEntry, "vouchers");
-    dispatch(addNewEntry(res));
+    try{
+      
+      const newEntry = {
+        entryDate: formattedDate,
+        numeration: number,
+        notes: description,
+        entryType: "",
+        entryDetails: payrollDetails.map(
+          ({ reasonName, price }) => ({
+            accountId: 1,
+            description: reasonName,
+            debitAmount: price,
+          })
+        ),
+      };
+      const res = await createResourse(newEntry, "vouchers");
+      dispatch(addNewEntry(res));
+      showAlert({
+        icon: "success",
+        title: "Rol de pagos enviado",
+        text: "Se a creado un nuevo comprobante contable.",
+      });
+    } catch (error) {
+      showAlert({
+        icon: "error",
+        title: "Error al eliminar nómina",
+        text: error.message || "No se pudo eliminar la nómina.",
+      });
+    }
   };
 };
 

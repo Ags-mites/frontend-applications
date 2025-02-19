@@ -125,7 +125,8 @@ export const PayroallNomination = () => {
   };
 
   const onSendAccount = (sendToAccount) => {
-    dispatch(setFormConfig(sendToAccount));
+    console.log(sendToAccount)
+    dispatch(sentPayrollToAccount(sendToAccount));
   };
 
   const onEditPayroll = (payrollToEdit) => {
