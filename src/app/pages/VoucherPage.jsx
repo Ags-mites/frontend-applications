@@ -51,6 +51,12 @@ const tableConfig = {
   ],
 };
 
+const formValidations = {
+  numeration: [(value) => value.trim() !== "", "La numeración del comprobante es obligatorio"],
+  entryDate: [(value) => value !== "", "La fecha del comprobante es obligatorio"],
+  voucherType: [(value) => value.trim() !== "", "El tipo de comprobante es obligatorio"],
+};
+
 export const VoucherPage = () => {
   const dispatch = useDispatch();
   const { vouchers, accounts } = useSelector((state) => state.app);
@@ -156,6 +162,7 @@ export const VoucherPage = () => {
         <FormViewTable
           config={formConfig}
           tableConfig={tableConfigWithAccount}
+          formValidations={formValidations}
           onSubmitCallback={handleSubmit}
           onCancel={() => setIsFormView(false)}
         />
