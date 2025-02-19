@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppLayout } from "../layout/AppLayout";
 import { FormView, TableInfoView } from "../views";
 
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import { deleteWorker, editWorker, newWorker } from "../../store";
 
 const WorkerFormConfig = {
@@ -18,7 +18,7 @@ const WorkerFormConfig = {
     { name: "idCard", label: "Número de identificación", type: "text" },
     { name: "name", label: "Nombre", type: "text" },
     { name: "dateAdmission", label: "Fecha de ingreso", type: "date" },
-    { name: "salary", label: "Sueldo", type: "text" },
+    { name: "salary", label: "Sueldo", type: "number" },
   ],
 };
 
@@ -29,6 +29,16 @@ const headers = {
   dateAdmission: "Fecha de ingreso",
   salary: "Sueldo",
   createdAt: "Fecha de Creación",
+};
+
+const formValidations = {
+  idCard: [(value) => value.trim() !== "", "El código es obligatorio"],
+  name: [(value) => value.trim() !== "", "El nombre es obligatorio"],
+  dateAdmission: [
+    (value) => value !== "",
+    "La fecha de ingreso es obligatorio",
+    ],
+    salary: [(value) => value !== "", "El sueldo es obligatorio"],
 };
 
 export const WorkerNomination = () => {
@@ -67,13 +77,15 @@ export const WorkerNomination = () => {
   };
 
   const onEditWorker = (workerToEdit) => {
+    const parsedDate = parse(workerToEdit.dateAdmission, "dd/MM/yyyy", new Date());
+    const formattedDate = format(parsedDate, "yyyy-MM-dd");
     setFormConfig({
       ...formConfig,
       initialValues: {
         id: workerToEdit.id || "",
         idCard: workerToEdit.idCard || "",
         name: workerToEdit.name || "",
-        dateAdmission: workerToEdit.dateAdmission || "",
+        dateAdmission: formattedDate || "",
         salary: workerToEdit.salary || "",
       },
       fields: formConfig.fields.some((field) => field.name === "id")
@@ -114,6 +126,7 @@ export const WorkerNomination = () => {
         <FormView
           config={formConfig}
           isEditing={!!editingWorker}
+          formValidations={formValidations}
           onSubmitCallback={handleSubmit}
           onCancel={() => setIsFormView(false)}
         />

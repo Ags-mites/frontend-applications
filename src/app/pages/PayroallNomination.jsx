@@ -16,7 +16,7 @@ const PayrollFormConfig = {
     worker: "",
     description: "",
     datePayroll: "",
-    payrollDetails: [],
+    details: [],
   },
   fields: [
     { name: "number", label: "Numeración", type: "text" },
@@ -53,6 +53,12 @@ const tableConfig = {
     },
     { name: "price", label: "Precio", type: "number", defaultValue: 0 },
   ],
+};
+
+const formValidations = {
+  number: [(value) => value.trim() !== "", "El número es obligatorio"],
+  worker: [(value) => value !== "", "El nombre es obligatorio"],
+  datePayroll: [(value) => value !== "", "La fecha del rol de pagos es obligatorio"],
 };
 
 export const PayroallNomination = () => {
@@ -179,6 +185,7 @@ export const PayroallNomination = () => {
         <FormViewTable
           config={formConfig}
           tableConfig={tableConfigWithReason}
+          formValidations={formValidations}
           onSubmitCallback={handleSubmit}
           onCancel={() => setIsFormView(false)}
         />

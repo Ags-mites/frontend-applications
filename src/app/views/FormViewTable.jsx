@@ -24,7 +24,6 @@ export const FormViewTable = ({
   formValidations,
 }) => {
   const [entries, setEntries] = useState([]);
-console.log(config.initialValues.details);
   useEffect(() => {
     if (Array.isArray(config.initialValues.details)) {
       setEntries(
