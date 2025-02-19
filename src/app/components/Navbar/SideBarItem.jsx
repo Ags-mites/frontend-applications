@@ -31,7 +31,7 @@ export const SideBarItem = ({ icon, description, subitems }) => {
             <Collapse in={open} timeout="auto" unmountOnExit key={subitem.path}>
               <List component="div" disablePadding>
                 <NavLink
-                  to={subitem.path}
+                  to={`${subitem.path}`} 
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
                   <ListItemButton sx={{ pl: 4 }}>

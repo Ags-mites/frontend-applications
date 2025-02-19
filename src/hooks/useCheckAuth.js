@@ -6,6 +6,7 @@ import { FirebaseAuth } from '../firebase/config';
 import { login, logout } from '../store/auth';
 import { startLoadingData } from '../store/account/thunks';
 import { startLoadingDataReason } from '../store/reason/thunks';
+import { startLoadingDataInvoice } from '../store/invoice/thunks';
 
 
 
@@ -28,6 +29,10 @@ export const useCheckAuth = () => {
             const resourcesNomination = ["workers", "payrolls","reasons"];
             resourcesNomination.forEach((resourceNomination) => {
               dispatch(startLoadingDataReason(resourceNomination));
+            });
+            const resourcesInvoices = ["Cities", "Clients","Invoice"];
+            resourcesInvoices.forEach((resourceNomination) => {
+              dispatch(startLoadingDataInvoice(resourceNomination));
             });
         })
         

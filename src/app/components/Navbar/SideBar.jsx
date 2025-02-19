@@ -4,8 +4,11 @@ import { menuItems } from "./NavItems";
 
 import * as React from "react";
 import ListSubheader from "@mui/material/ListSubheader";
+import { useSelector } from "react-redux";
 
 export const SideBar = ({ drawerWidth = 240 }) => {
+  const { displayName } = useSelector((state) => state.auth);
+
   return (
     <>
       <Box
@@ -25,8 +28,7 @@ export const SideBar = ({ drawerWidth = 240 }) => {
         >
           <Toolbar>
             <Typography variant="h6" noWrap component="div">
-              {/* //todo colocar el nombre del usuario */}
-              Nombre
+              {displayName}
             </Typography>
           </Toolbar>
           <Divider />

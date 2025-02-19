@@ -15,45 +15,57 @@ export const menuItems = [
   },
   {
     icon: <Calculate color="primary" />,
-    path: "/account",
+    path: "/dashboard/account",
     description: "Contabilidad",
     subitems: [
       {
         icon: <ManageAccounts color="secondary" />,
-        path: "/account",
+        path: "/dashboard/account",
         description: "Cuenta",
       },
       {
         icon: <AccountTree color="secondary" />,
-        path: "/account_type",
+        path: "/dashboard/account_type",
         description: "Tipos de cuenta",
       },
       {
         icon: <NoteAddSharp color="secondary" />,
-        path: "/voucher",
+        path: "/dashboard/voucher",
         description: "Comprobantes contables",
       },
     ],
   },
   {
     icon: <Person color="primary" />,
-    path: "/nomina",
+    path: "/dashboard/nomina",
     description: "Nómina",
     subitems: [
       {
         icon: <ManageAccounts color="secondary" />,
-        path: "/reason",
+        path: "/dashboard/reason",
         description: "Motivo nómina",
       },
       {
         icon: <AccountTree color="secondary" />,
-        path: "/workers",
+        path: "/dashboard/workers",
         description: "Empleados",
       },
       {
         icon: <NoteAddSharp color="secondary" />,
-        path: "/payroll",
+        path: "/dashboard/payroll",
         description: "Crear comprobantes nomina",
+      },
+    ],
+  },
+  {
+    icon: <Person color="primary" />,
+    path: "/dashboard/nomina",
+    description: "Facturación",
+    subitems: [
+      {
+        icon: <ManageAccounts color="secondary" />,
+        path: "/dashboard/cities",
+        description: "Ciudades",
       },
     ],
   },

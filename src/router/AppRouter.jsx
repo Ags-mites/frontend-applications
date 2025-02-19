@@ -1,9 +1,10 @@
-import { Navigate, Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { AuthRoutes } from "../auth/routes/AuthRoutes";
-
 import { AppRoutes } from "../app/routes/AppRoutes";
-import { CheckingAuth } from "../ui/";
+import { CheckingAuth } from "../ui";
 import { useCheckAuth } from "../hooks";
+import { PublicRoute } from "./PublicRoute";
+import { PrivateRoute } from "./PrivateRouter";
 
 export const AppRouter = () => {
   const status = useCheckAuth();
@@ -14,11 +15,23 @@ export const AppRouter = () => {
 
   return (
     <Routes>
-      {status === "authenticated" ? (
-        <Route path="/*" element={<AppRoutes />} />
-      ) : (
-        <Route path="/auth/*" element={<AuthRoutes />} />
-      )}
+      <Route
+        path="auth/*"
+        element={
+          <PublicRoute>
+            <AuthRoutes />
+          </PublicRoute>
+        }
+      />
+
+      <Route
+        path="dashboard/*"
+        element={
+          <PrivateRoute>
+            <AppRoutes />
+          </PrivateRoute>
+        }
+      />
 
       <Route path="/*" element={<Navigate to="/auth/login" />} />
     </Routes>
