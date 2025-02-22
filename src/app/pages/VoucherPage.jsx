@@ -117,7 +117,6 @@ export const VoucherPage = () => {
       initialValues: {
         id: voucherToEdit.id || "",
         numeration: voucherToEdit.numeration || "",
-        entryDate: voucherToEdit.entryDate || "",
         entryDate: formattedDate || "",
         notes: voucherToEdit.notes || "",
         voucherType: voucherToEdit.entryType || "",

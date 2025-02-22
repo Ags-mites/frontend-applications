@@ -265,6 +265,7 @@ export const newEntry = ({
           })
         ),
       };
+      console.log(newEntry)
       const res = await createResourse(newEntry, "vouchers");
       dispatch(addNewEntry(res));
       showAlert({
@@ -311,7 +312,7 @@ export const editEntry = ({ id, entries, entryDate, notes, voucherType, numerati
           creditAmount,
         })),
       };
-
+      console.log(editEntry)
       const res = await updateResourse(editEntry, "vouchers", id);
       dispatch(setEditEntry(res));
 

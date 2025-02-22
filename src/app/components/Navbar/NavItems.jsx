@@ -33,6 +33,11 @@ export const menuItems = [
         path: "/dashboard/voucher",
         description: "Comprobantes contables",
       },
+      {
+        icon: <NoteAddSharp color="secondary" />,
+        path: "/dashboard/result_balance",
+        description: "Reporte balance de resultados",
+      },
     ],
   },
   {
