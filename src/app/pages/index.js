@@ -5,3 +5,5 @@ export { PayroallNomination } from "../pages/PayroallNomination";
 export { ReasonNomination } from "./ReasonNomination";
 export { VoucherPage } from "./VoucherPage";
 export { WorkerNomination } from "./WorkerNomination";
+export { IncomeStatementPage } from "./IncomeStatementPage";
+export { BalanceSheetPage } from "./BalanceSheetPage";

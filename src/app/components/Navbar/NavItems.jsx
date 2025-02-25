@@ -5,6 +5,8 @@ import {
   AccountTree,
   ManageAccounts,
   Person,
+  NotesTwoTone,
+  NoteRounded,
 } from "@mui/icons-material";
 
 export const menuItems = [
@@ -34,9 +36,14 @@ export const menuItems = [
         description: "Comprobantes contables",
       },
       {
-        icon: <NoteAddSharp color="secondary" />,
-        path: "/dashboard/result_balance",
-        description: "Reporte balance de resultados",
+        icon: <NoteRounded color="secondary" />,
+        path: "/dashboard/balanceSheet",
+        description: "Balance general",
+      },
+      {
+        icon: <NotesTwoTone color="secondary" />,
+        path: "/dashboard/incomeStatement",
+        description: "Estado de resultados",
       },
     ],
   },
@@ -59,6 +66,16 @@ export const menuItems = [
         icon: <NoteAddSharp color="secondary" />,
         path: "/dashboard/payroll",
         description: "Crear comprobantes nomina",
+      },
+      {
+        icon: <NoteRounded color="secondary" />,
+        path: "/dashboard/balanceSheet",
+        description: "Balance general",
+      },
+      {
+        icon: <NotesTwoTone color="secondary" />,
+        path: "/dashboard/incomeStatement",
+        description: "Estado de resultados",
       },
     ],
   },

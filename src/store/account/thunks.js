@@ -12,6 +12,7 @@ import {
   addNewAccountType,
   addNewEntry,
   setData,
+  setDataReport,
   setDeleteAccount,
   setDeleteAccountType,
   setDeleteEntry,
@@ -312,7 +313,6 @@ export const editEntry = ({ id, entries, entryDate, notes, voucherType, numerati
           creditAmount,
         })),
       };
-      console.log(editEntry)
       const res = await updateResourse(editEntry, "vouchers", id);
       dispatch(setEditEntry(res));
 
@@ -348,6 +348,24 @@ export const deleteEntry = (id) => {
         icon: "error",
         title: "Error al eliminar el asiento",
         text: error.message || "Hubo un problema al eliminar los datos.",
+        showConfirmButton: true,
+      });
+    }
+  };
+};
+
+
+export const fetchReportData = (resource) => {
+  return async (dispatch) => {
+    try {
+      const data = await getAllResourse(resource);
+      dispatch(setDataReport({ resource, data }));
+
+    } catch (error) {
+      showAlert({
+        icon: "error",
+        title: "Error al cargar los datos del reporte",
+        text: error.message || "Hubo un problema cargar los datos.",
         showConfirmButton: true,
       });
     }

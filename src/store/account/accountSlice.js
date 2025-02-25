@@ -9,6 +9,7 @@ export const accountSlice = createSlice({
     accounts: [],
     accountTypes: [],
     vouchers: [],
+    report: [],
   },
   reducers: {
     savingNewItem: (state) => {
@@ -72,6 +73,10 @@ export const accountSlice = createSlice({
         (voucher) => voucher.id !== action.payload
       );
     },
+    setDataReport:  (state, action) => {
+      const {  data } = action.payload;
+      state.report = data
+    },
     clearActiveItem: (state) => {
       state.activeTable = true;
     },
@@ -92,4 +97,5 @@ export const {
   addNewEntry,
   setEditEntry,
   setDeleteEntry,
+  setDataReport,
 } = accountSlice.actions;
