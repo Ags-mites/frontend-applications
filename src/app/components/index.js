@@ -9,3 +9,5 @@ export * from "./Navbar/SideBar";
 export * from "./Navbar/SideBarItem";
 
 export { menuItems } from "./Navbar/NavItems";
+
+export * from "./HelpChat"; // Añadido
