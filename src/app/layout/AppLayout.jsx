@@ -1,6 +1,6 @@
 import { Toolbar } from "@mui/material";
 import { Box } from "@mui/system";
-import { NavBar, SideBar } from "../components";
+import { NavBar, SideBar, HelpChat } from "../components";
 
 const drawerWidth = 280;
 
@@ -16,6 +16,7 @@ export const AppLayout = ({ children }) => {
         <Toolbar />
         {children}
       </Box>
+      <HelpChat /> {/* Añadido aquí */}
     </Box>
   );
 };

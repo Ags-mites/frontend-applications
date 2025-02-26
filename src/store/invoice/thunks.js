@@ -258,12 +258,31 @@ export const newInvoice = ({
 };
 
 // Editar factura existente
-export const editInvoice = (invoiceData) => async (dispatch) => {
+export const editInvoice = ({
+  id,
+  cityId,
+  clientId,
+  date,
+  entries,
+  invoiceNumber }) => async (dispatch) => {
   try {
     dispatch(startLoading());
     showLoading("Actualizando factura...");
 
-    const res = await updateResourse(invoiceData, "invoices", invoiceData.id);
+    const invoiceData = {
+      id,
+      invoiceNumber,
+      date,
+      cityId,
+      clientId,
+      invoiceDetails: entries.map(({
+        article,
+        quantity,
+        price
+      }) => ({ article, quantity: +quantity, price: +price })),
+    };
+
+    const res = await updateResourse(invoiceData, "invoices", id);
     dispatch(setEditInvoice(res));
 
     showAlert({

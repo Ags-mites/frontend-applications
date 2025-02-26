@@ -272,6 +272,7 @@ export const ReportPage = () => {
                     <Paper elevation={3} sx={{ p: 3 }}>
                         <div id="report-city-sales">
                             <Typography variant="h5" gutterBottom>
+                                Reporte 1:
                                 Ventas por Ciudad
                                 <IconButton
                                     className="no-print"
@@ -336,6 +337,7 @@ export const ReportPage = () => {
                     <Paper elevation={3} sx={{ p: 3 }}>
                         <div id="report-article-client-sales">
                             <Typography variant="h5" gutterBottom>
+                                Reporte 2:
                                 Ventas por Artículo/Cliente
                                 <IconButton
                                     className="no-print"
