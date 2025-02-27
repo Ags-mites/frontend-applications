@@ -67,6 +67,21 @@ export const FormCard = ({
                       size="small"
                     />
                   )}
+                  {field.type === "number" && (
+                    <TextField
+                      label={field.label}
+                      name={field.name}
+                      value={formState[field.name] || ""}
+                      onChange={onInputChange}
+                      error={!!fieldError && formSubmitted}
+                      helperText={fieldError}
+                      InputProps={{
+                        readOnly: field.readOnly ? true : false,
+                      }}
+                      fullWidth
+                      size="small"
+                    />
+                  )}
                   {field.type === "date" && (
                     <TextField
                       label={field.label}
