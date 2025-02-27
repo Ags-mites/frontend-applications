@@ -12,10 +12,7 @@ import {
   addNewAccountType,
   addNewEntry,
   setData,
-<<<<<<< HEAD
   setDataReport,
-=======
->>>>>>> 9cca994 (Para mi sistema)
   setDeleteAccount,
   setDeleteAccountType,
   setDeleteEntry,
@@ -316,10 +313,6 @@ export const editEntry = ({ id, entries, entryDate, notes, voucherType, numerati
           creditAmount,
         })),
       };
-<<<<<<< HEAD
-=======
-      console.log(editEntry)
->>>>>>> 9cca994 (Para mi sistema)
       const res = await updateResourse(editEntry, "vouchers", id);
       dispatch(setEditEntry(res));
 
@@ -361,7 +354,6 @@ export const deleteEntry = (id) => {
   };
 };
 
-<<<<<<< HEAD
 
 export const fetchReportData = (resource) => {
   return async (dispatch) => {
@@ -380,8 +372,6 @@ export const fetchReportData = (resource) => {
   };
 };
 
-=======
->>>>>>> 9cca994 (Para mi sistema)
 const showAlert = ({
   icon,
   title,

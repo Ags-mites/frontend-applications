@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-// src/store/invoice/invoiceSlice.js
->>>>>>> 9cca994 (Para mi sistema)
 import { createSlice } from "@reduxjs/toolkit";
 
 export const invoiceSlice = createSlice({
@@ -10,13 +6,6 @@ export const invoiceSlice = createSlice({
     isSaving: false,
     messageSaved: "",
     activeTable: true,
-<<<<<<< HEAD
-    Clients: [],
-    Cities: [],
-    Invoice: [],
-  },
-  reducers: {
-=======
     clients: [], 
     cities: [],  
     invoices: [], 
@@ -24,16 +13,11 @@ export const invoiceSlice = createSlice({
   },
   reducers: {
     // Acciones comunes
->>>>>>> 9cca994 (Para mi sistema)
     savingNewItem: (state) => {
       state.isSaving = true;
     },
     setData: (state, action) => {
       const { resource, data } = action.payload;
-<<<<<<< HEAD
-      state[resource] = data;
-    },
-=======
       state[resource] = data; // Ej: resource = "cities"
     },
     startLoading: (state) => {
@@ -45,31 +29,10 @@ export const invoiceSlice = createSlice({
     },
 
     // Acciones para Ciudades (ya implementadas)
->>>>>>> 9cca994 (Para mi sistema)
     addNewCity: (state, action) => {
       state.cities.push(action.payload);
       state.isSaving = false;
     },
-<<<<<<< HEAD
-    //todo continuar con los cambios:
-    setEditcities: (state, action) => {
-      state.citiess = state.citiess.map((cities) => {
-        if (cities.id === action.payload.id) {
-          return action.payload;
-        }
-        return cities;
-      });
-    },
-    setDeletecities: (state, action) => {
-      state.citiess = state.citiess.filter(
-        (cities) => cities.id !== action.payload
-      );
-    },
-  },
-});
-
-export const { setData, addNewCity } = invoiceSlice.actions;
-=======
     setEditCity: (state, action) => {
       state.cities = state.cities.map(city =>
         city.id === action.payload.id ? action.payload : city
@@ -116,4 +79,3 @@ export const {
   addNewInvoice, setEditInvoice, setDeleteInvoice,
   setError, startLoading,
 } = invoiceSlice.actions;
->>>>>>> 9cca994 (Para mi sistema)

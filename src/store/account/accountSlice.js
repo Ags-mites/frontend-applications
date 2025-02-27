@@ -9,10 +9,7 @@ export const accountSlice = createSlice({
     accounts: [],
     accountTypes: [],
     vouchers: [],
-<<<<<<< HEAD
     report: [],
-=======
->>>>>>> 9cca994 (Para mi sistema)
   },
   reducers: {
     savingNewItem: (state) => {
@@ -76,13 +73,10 @@ export const accountSlice = createSlice({
         (voucher) => voucher.id !== action.payload
       );
     },
-<<<<<<< HEAD
     setDataReport:  (state, action) => {
       const {  data } = action.payload;
       state.report = data
     },
-=======
->>>>>>> 9cca994 (Para mi sistema)
     clearActiveItem: (state) => {
       state.activeTable = true;
     },
@@ -103,8 +97,5 @@ export const {
   addNewEntry,
   setEditEntry,
   setDeleteEntry,
-<<<<<<< HEAD
   setDataReport,
-=======
->>>>>>> 9cca994 (Para mi sistema)
 } = accountSlice.actions;

@@ -5,15 +5,12 @@ import {
   AccountTree,
   ManageAccounts,
   Person,
-<<<<<<< HEAD
   NotesTwoTone,
   NoteRounded,
-=======
   Receipt,
   Payment,
   LocationCity,
   People,
->>>>>>> 9cca994 (Para mi sistema)
 } from "@mui/icons-material";
 
 export const menuItems = [
@@ -43,7 +40,6 @@ export const menuItems = [
         description: "Comprobantes contables",
       },
       {
-<<<<<<< HEAD
         icon: <NoteRounded color="secondary" />,
         path: "/dashboard/balanceSheet",
         description: "Balance general",
@@ -52,11 +48,6 @@ export const menuItems = [
         icon: <NotesTwoTone color="secondary" />,
         path: "/dashboard/incomeStatement",
         description: "Estado de resultados",
-=======
-        icon: <NoteAddSharp color="secondary" />,
-        path: "/dashboard/result_balance",
-        description: "Reporte balance de resultados",
->>>>>>> 9cca994 (Para mi sistema)
       },
     ],
   },
@@ -80,7 +71,6 @@ export const menuItems = [
         path: "/dashboard/payroll",
         description: "Crear comprobantes nomina",
       },
-<<<<<<< HEAD
       {
         icon: <NoteRounded color="secondary" />,
         path: "/dashboard/balanceSheet",
@@ -95,22 +85,10 @@ export const menuItems = [
   },
   {
     icon: <Person color="primary" />,
-=======
-    ],
-  },
-  {
-    icon: <Payment color="primary" />,
->>>>>>> 9cca994 (Para mi sistema)
     path: "/dashboard/invoice",
     description: "Facturación",
     subitems: [
       {
-<<<<<<< HEAD
-        icon: <ManageAccounts color="secondary" />,
-        path: "/dashboard/cities",
-        description: "Ciudades",
-      },
-=======
         icon: <LocationCity color="secondary" />,
         path: "/dashboard/cities",
         description: "Ciudades",
@@ -130,7 +108,6 @@ export const menuItems = [
         path: "/dashboard/reports",
         description: "Reportes",
       },
->>>>>>> 9cca994 (Para mi sistema)
     ],
   },
 ];

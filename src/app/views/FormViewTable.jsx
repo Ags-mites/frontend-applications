@@ -39,10 +39,7 @@ export const FormViewTable = ({
       );
     }
   }, [config.initialValues.details]);
-<<<<<<< HEAD
   
-=======
->>>>>>> 9cca994 (Para mi sistema)
 
   const handleSubmit = (formValues, isEditing) => {
     if (onSubmitCallback) {

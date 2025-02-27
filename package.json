@@ -13,13 +13,8 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@fontsource/roboto": "^5.1.1",
-<<<<<<< HEAD
-    "@mui/icons-material": "^6.3.1",
-    "@mui/material": "^6.3.1",
-=======
     "@mui/icons-material": "^6.4.5",
     "@mui/material": "^6.4.5",
->>>>>>> 9cca994 (Para mi sistema)
     "@mui/styled-engine-sc": "^6.3.1",
     "@reduxjs/toolkit": "^2.5.0",
     "date-fns": "^4.1.0",
@@ -29,10 +24,7 @@
     "react-dom": "^18.3.1",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.1.1",
-<<<<<<< HEAD
-=======
     "react-to-print": "^3.0.5",
->>>>>>> 9cca994 (Para mi sistema)
     "styled-components": "^6.1.14",
     "sweetalert2": "^11.6.13"
   },
