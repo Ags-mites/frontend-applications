@@ -67,6 +67,7 @@ export const FormCard = ({
                       size="small"
                     />
                   )}
+<<<<<<< HEAD
                   {field.type === "number" && (
                     <TextField
                       label={field.label}
@@ -82,6 +83,8 @@ export const FormCard = ({
                       size="small"
                     />
                   )}
+=======
+>>>>>>> 9cca994 (Para mi sistema)
                   {field.type === "date" && (
                     <TextField
                       label={field.label}
